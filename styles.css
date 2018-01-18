@@ -1,0 +1,120 @@
+body {
+  font-family: Lato, Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  color: #333;
+  background-color: #edeef0;
+}
+
+html, body {
+  height: 100%;
+  width: 100%;
+}
+
+h1 {
+  font-size: 32px;
+  line-height: 33px;
+  color: #fff;
+}
+
+h2 {
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 33px;
+  color: #305075;
+}
+
+h3 {
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 22px;
+  color: #305075;
+}
+
+li {
+  color: #d7d8db;
+}
+li.active {
+  color: #ffffff;
+}
+
+a {
+  color: #000;
+  text-decoration: none;
+}
+a:hover {
+  color: #305075;
+}
+
+#header {
+  background-color: #2a5885;
+  color: #fff;
+}
+
+#header div {
+  padding: 20px 30px;
+  margin: 0 auto;
+  max-width: 900px;
+}
+
+#header a {
+  color: #d7d8db;
+}
+#header a:hover {
+  color: #ffffff;
+}
+
+#content {
+  margin: 30px auto;
+  padding: 30px;
+  max-width: 900px;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #d7d8db;
+  box-shadow: 10px #d7d8db;
+}
+
+.example {
+  border-top: 1px solid #d7d8db;
+}
+
+.example pre {
+  overflow-x: scroll;
+  padding: 10px 0;
+  color: #333;
+  background-color: #fafbfc;
+  border: 1px solid #d7d8db;
+}
+
+.example pre mark{
+  color: #000;
+  background-color: #e8edf4;
+  transition: all .25s ease-in-out;
+  -moz-transition: all .25s ease-in-out;
+  -webkit-transition: all .25s ease-in-out;
+  -o-transition: all .25s ease-in-out;
+}
+
+.example pre:hover mark{
+  color: #fff;
+  background-color: #305075;
+}
+
+.example .game {
+  display: inline-block;
+}
+
+::-moz-selection{
+  background-color:inherit;
+}
+::selection{
+  background-color:inherit;
+}
+pre::-moz-selection{
+  background-color: #305075;
+  color:#fff;
+}
+pre::selection{
+  background-color: #305075;
+  color:rgba(255,255,255,0.99);
+}
