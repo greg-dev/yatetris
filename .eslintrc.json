@@ -1,0 +1,21 @@
+{
+  "extends": "semistandard",
+  "plugins": [
+    "import"
+  ],
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "globals": {
+    "assets": false,
+    "shapes": false,
+    "Tetromino": false,
+    "Game": false,
+    "Engine": false,
+    "Canvas": false,
+    "View": false,
+    "ViewCanvas": false,
+    "Input": false,
+    "InputKeyboard": false
+  }
+}
