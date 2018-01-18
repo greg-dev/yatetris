@@ -37,12 +37,22 @@
     <div class="example">
       <h3>Check the links above for more examples. Github page: <a href="https://github.com/greg-dev/yatetris">https://github.com/greg-dev/yatetris</a></h3>
       <div id="game1" class="game">#game1</div>
+      <div id="game2" class="game">#game2</div>
       <pre>
       var game1 = new Game({
         rows: 10,
-        cells: 6,
+        cells: 8,
         view: new ViewCanvas({
           root: document.getElementById('game1')
+        }),
+        input: new InputKeyboard()
+      });
+
+      var game2 = new Game({
+        rows: 10,
+        cells: 5,
+        view: new ViewCanvas({
+          root: document.getElementById('game2')
         }),
         input: new InputKeyboard()
       });
