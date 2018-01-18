@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Yet another tetris game",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "reload": "reload -b -s playground.html"
+  },
   "author": "Greg",
   "license": "WTFPL",
   "dependencies": {},
