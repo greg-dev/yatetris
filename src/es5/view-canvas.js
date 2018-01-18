@@ -23,9 +23,7 @@ ViewCanvas.prototype.init = function (game, callback) {
   // create ui
   var ui = document.createElement('div');
   ui.id = 'ui-' + this.instance;
-  ui.style.position = 'relative';
-  ui.style.border = '1px solid';
-  ui.style.backgroundColor = 'gray';
+  ui.className = 'ui';
   ui.style.width = (this.game.grid[0].length + 2) * this.blockSize + 'px';
   ui.style.height = (this.game.grid.length + 2) * this.blockSize + 'px';
   this.params.root.appendChild(ui);
@@ -34,7 +32,7 @@ ViewCanvas.prototype.init = function (game, callback) {
   // create board for falling tetromino and dropped blocks
   var board = document.createElement('div');
   board.id = 'board-' + this.instance;
-  board.style.position = 'relative';
+  board.className = 'board';
   board.style.top = this.blockSize + 'px';
   board.style.left = this.blockSize + 'px';
   this.ui.appendChild(board);
@@ -49,20 +47,17 @@ ViewCanvas.prototype.init = function (game, callback) {
   var view = this;
   var canvasWidth = view.game.grid[0].length * view.blockSize;
   var canvasHeight = view.game.grid.length * view.blockSize;
-  this.ui.layers = layers.reduce(function (layers, layer, index) {
-    layers[layer] = createCanvasLayer(canvasWidth, canvasHeight, !index);
+  this.ui.layers = layers.reduce(function (layers, layer) {
+    layers[layer] = createCanvasLayer(canvasWidth, canvasHeight, layer);
     view.ui.board.appendChild(layers[layer]);
     return layers;
   }, {});
 
-  function createCanvasLayer (width, height, first) {
+  function createCanvasLayer (width, height, layer) {
     var canvas = document.createElement('canvas');
+    canvas.className = layer;
     canvas.width = width;
     canvas.height = height;
-    canvas.style.position = first ? 'relative' : 'absolute';
-    canvas.style.top = 0;
-    canvas.style.left = 0;
-    canvas.style.border = '1px solid';
     canvas.ctx = canvas.getContext('2d');
     return canvas;
   }
@@ -104,7 +99,6 @@ ViewCanvas.prototype.loadImages = function (callback) {
 
 ViewCanvas.prototype.renderLoadingProgress = function (text) {
   var cnv = this.ui.layers.overlay;
-  cnv.style.backgroundColor = 'white';
   cnv.ctx.clearRect(0, 0, cnv.width, cnv.height);
 
   var title = 'tetris';
@@ -115,7 +109,6 @@ ViewCanvas.prototype.renderLoadingProgress = function (text) {
 
 ViewCanvas.prototype.showStartScreen = function () {
   var cnv = this.ui.layers.overlay;
-  cnv.style.backgroundColor = 'white';
   cnv.ctx.clearRect(0, 0, cnv.width, cnv.height);
 
   var title = 'tetris';
@@ -127,7 +120,6 @@ ViewCanvas.prototype.showStartScreen = function () {
 
 ViewCanvas.prototype.showEndScreen = function () {
   var cnv = this.ui.layers.overlay;
-  cnv.style.backgroundColor = 'white';
   cnv.ctx.clearRect(0, 0, cnv.width, cnv.height);
 
   var title = 'tetris';
@@ -250,7 +242,6 @@ ViewCanvas.prototype.renderRemovedLines = function (removedLines) {
 ViewCanvas.prototype.clearOverlay = function () {
   var cnv = this.ui.layers.overlay;
   var ctx = cnv.ctx;
-  cnv.style.backgroundColor = 'gray';
   ctx.clearRect(0, 0, cnv.width, cnv.height);
 };
 

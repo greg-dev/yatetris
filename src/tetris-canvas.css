@@ -1,0 +1,29 @@
+.ui {
+  position: relative;
+  border: 1px solid #d7d8db;
+  background-color: #e8edf4;
+}
+
+.ui .board {
+  position: relative;
+}
+
+.ui .board canvas.dropped {
+  position: relative;
+  top: 0;
+  left: 0;
+  border: 1px solid #d7d8db;
+}
+
+.ui .board canvas.falling {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+}
+
+.ui .board canvas.overlay {
+  position: absolute;
+  top: 1px;
+  left: 1px;
+  background-color: #ffffff;
+}
