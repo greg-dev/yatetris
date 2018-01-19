@@ -8,6 +8,7 @@ function Tetromino (data, grid) {
   this.rotationIndex = 0;
   this.blocks = JSON.parse(JSON.stringify(this.shape[this.rotationIndex]));
   this.grid = grid;
+  this.tile = data.tile;
 }
 
 Tetromino.prototype.collides = function (blocks, posX, posY) {

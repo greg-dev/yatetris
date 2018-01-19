@@ -3,6 +3,7 @@
 var tetrominos = { // eslint-disable-line no-unused-vars
   // standard
   i: {
+    tile: 'cyan',
     shape: [
       [
         [0, 0, 0, 0],
@@ -20,6 +21,7 @@ var tetrominos = { // eslint-disable-line no-unused-vars
     line: -1
   },
   o: {
+    tile: 'yellow',
     shape: [
       [
         [1, 1],
@@ -29,6 +31,7 @@ var tetrominos = { // eslint-disable-line no-unused-vars
     line: 0
   },
   t: {
+    tile: 'purple',
     shape: [
       [
         [0, 1, 0],
@@ -54,6 +57,7 @@ var tetrominos = { // eslint-disable-line no-unused-vars
     line: 0
   },
   s: {
+    tile: 'green',
     shape: [
       [
         [0, 1, 1],
@@ -69,6 +73,7 @@ var tetrominos = { // eslint-disable-line no-unused-vars
     line: 0
   },
   z: {
+    tile: 'red',
     shape: [
       [
         [1, 1, 0],
@@ -84,6 +89,7 @@ var tetrominos = { // eslint-disable-line no-unused-vars
     line: 0
   },
   j: {
+    tile: 'blue',
     shape: [
       [
         [0, 0, 0],
@@ -109,6 +115,7 @@ var tetrominos = { // eslint-disable-line no-unused-vars
     line: -1
   },
   l: {
+    tile: 'orange',
     shape: [
       [
         [0, 0, 0],

@@ -149,8 +149,9 @@ ViewCanvas.prototype.renderTetromino = function () {
   var cnv = this.ui.layers.falling;
   var ctx = cnv.ctx;
   ctx.clearRect(0, 0, cnv.width, cnv.height);
-  var image = this.ui.images.blue;
   var tetromino = this.game.tetromino;
+  var images = this.ui.images;
+  var image = (tetromino.tile && images[tetromino.tile]) || images.blue;
   var blocks = tetromino.blocks;
   for (var y = 0; y < blocks.length; y++) {
     for (var x = 0; x < blocks[0].length; x++) {
