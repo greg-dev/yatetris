@@ -36,8 +36,10 @@ Game.prototype.validateOption = function (options) {
   return true;
 };
 
+Game.prototype.hiddenLines = 1;
+
 Game.prototype.createEmptyGrid = function (rows, cells) {
-  return new Array(rows).fill(0).map(function () {
+  return new Array(rows + this.hiddenLines).fill(0).map(function () {
     return new Array(cells).fill(0);
   });
 };
@@ -95,7 +97,7 @@ Game.prototype.createNextTetromino = function () {
 
 Game.prototype.spawnTetromino = function (tetromino) {
   tetromino.x = Math.floor((this.grid[0].length - tetromino.blocks[0].length) / 2);
-  tetromino.y = tetromino.spawnLine;
+  tetromino.y = tetromino.spawnLine + this.hiddenLines;
   this.tetromino = tetromino;
   this.view.renderTetromino();
 };

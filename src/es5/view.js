@@ -6,6 +6,9 @@ function View (params) {
 
 View.prototype.init = function (game) {
   this.game = game;
+  this.rows = game.grid.length - game.hiddenLines;
+  this.cells = game.grid[0].length;
+  this.hiddenLines = game.hiddenLines;
   this.ready = false;
 };
 

@@ -4,6 +4,8 @@ function ViewCanvas (params) {
   View.call(this, params);
   this.ready = false;
   this.instance = ++ViewCanvas.prototype.instance;
+  this.rows = 0;
+  this.cells = 0;
   this.blockSize = 16;
   this.animationTimer = null;
 }
@@ -24,8 +26,8 @@ ViewCanvas.prototype.init = function (game, callback) {
   var ui = document.createElement('div');
   ui.id = 'ui-' + this.instance;
   ui.className = 'ui';
-  ui.style.width = (this.game.grid[0].length + 2) * this.blockSize + 'px';
-  ui.style.height = (this.game.grid.length + 2) * this.blockSize + 'px';
+  ui.style.width = (this.cells + 2) * this.blockSize + 'px';
+  ui.style.height = (this.rows + 2) * this.blockSize + 'px';
   this.params.root.appendChild(ui);
   this.ui = ui;
 
@@ -45,8 +47,8 @@ ViewCanvas.prototype.init = function (game, callback) {
   var layers = ['dropped', 'falling', 'overlay'];
 
   var view = this;
-  var canvasWidth = view.game.grid[0].length * view.blockSize;
-  var canvasHeight = view.game.grid.length * view.blockSize;
+  var canvasWidth = view.cells * view.blockSize;
+  var canvasHeight = view.rows * view.blockSize;
   this.ui.layers = layers.reduce(function (layers, layer) {
     layers[layer] = createCanvasLayer(canvasWidth, canvasHeight, layer);
     view.ui.board.appendChild(layers[layer]);
@@ -156,7 +158,7 @@ ViewCanvas.prototype.renderTetromino = function () {
         ctx.drawImage(
           image,
           (tetromino.x + x) * this.blockSize,
-          (tetromino.y + y) * this.blockSize,
+          (tetromino.y + y - this.hiddenLines) * this.blockSize,
           this.blockSize,
           this.blockSize
         );
@@ -181,7 +183,7 @@ ViewCanvas.prototype.renderGrid = function () {
         ctx.drawImage(
           image,
           x * this.blockSize,
-          y * this.blockSize,
+          (y - this.hiddenLines) * this.blockSize,
           this.blockSize,
           this.blockSize
         );
@@ -208,7 +210,7 @@ ViewCanvas.prototype.renderRemovedLines = function (removedLines) {
       ctx.drawImage(
         image,
         x * this.blockSize,
-        removedLines[i] * this.blockSize,
+        (removedLines[i] - this.hiddenLines) * this.blockSize,
         this.blockSize,
         this.blockSize
       );
