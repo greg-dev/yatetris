@@ -79,13 +79,14 @@ Game.prototype.startGame = function () {
   this.play();
 };
 
-Game.prototype.getRandomShape = function () {
-  var keys = Object.keys(shapes);
-  return shapes[keys[Math.floor(Math.random() * keys.length)]];
+Game.prototype.getRandomTetrominoData = function () {
+  var keys = Object.keys(tetrominos);
+  var data = tetrominos[keys[Math.floor(Math.random() * keys.length)]];
+  return data;
 };
 
 Game.prototype.createRandomTetromino = function () {
-  return new Tetromino(this.getRandomShape(), this.grid);
+  return new Tetromino(this.getRandomTetrominoData(), this.grid);
 };
 
 Game.prototype.createNextTetromino = function () {
@@ -94,7 +95,7 @@ Game.prototype.createNextTetromino = function () {
 
 Game.prototype.spawnTetromino = function (tetromino) {
   tetromino.x = Math.floor((this.grid[0].length - tetromino.blocks[0].length) / 2);
-  tetromino.y = 0;
+  tetromino.y = tetromino.spawnLine;
   this.tetromino = tetromino;
   this.view.renderTetromino();
 };

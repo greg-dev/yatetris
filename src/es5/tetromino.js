@@ -1,9 +1,10 @@
 'use strict';
 
-function Tetromino (shape, grid) {
+function Tetromino (data, grid) {
   this.x = 0;
   this.y = 0;
-  this.shape = shape;
+  this.shape = data.shape;
+  this.spawnLine = data.line || 0;
   this.rotationIndex = 0;
   this.blocks = JSON.parse(JSON.stringify(this.shape[this.rotationIndex]));
   this.grid = grid;

@@ -8,7 +8,7 @@
   },
   "globals": {
     "assets": false,
-    "shapes": false,
+    "tetrominos": false,
     "Tetromino": false,
     "Game": false,
     "Engine": false,
