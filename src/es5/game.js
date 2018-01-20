@@ -2,6 +2,7 @@
 
 function Game (options) {
   this.grid = [];
+  this.queue = [];
   this.tetrominos = [];
   this.tetromino = null;
   this.timeout = null;
@@ -69,8 +70,8 @@ Game.prototype.clearGrid = function () {
 
 Game.prototype.init = function (options) {
   this.grid = options.grid || this.createEmptyGrid(options.rows, options.cells);
-  this.tetrominos = options.tetrominos || this.tetrominos;
   this.speedPercent = parseInt(options.speedPercent) || this.speedPercent;
+  this.tetrominos = options.tetrominos || tetrominos;
 
   var showStartScreen = this.showStartScreen.bind(this);
   this.view = options.view;
@@ -99,8 +100,8 @@ Game.prototype.startGame = function () {
 };
 
 Game.prototype.getRandomTetrominoData = function () {
-  var keys = Object.keys(tetrominos);
-  var data = tetrominos[keys[Math.floor(Math.random() * keys.length)]];
+  var keys = Object.keys(this.tetrominos);
+  var data = this.tetrominos[keys[Math.floor(Math.random() * keys.length)]];
   return data;
 };
 
@@ -109,7 +110,7 @@ Game.prototype.createRandomTetromino = function () {
 };
 
 Game.prototype.createNextTetromino = function () {
-  this.tetrominos.push(this.createRandomTetromino());
+  this.queue.push(this.createRandomTetromino());
 };
 
 Game.prototype.spawnTetromino = function (tetromino) {
@@ -120,8 +121,8 @@ Game.prototype.spawnTetromino = function (tetromino) {
 };
 
 Game.prototype.spawnNextTetromino = function () {
-  if (this.tetrominos.length) {
-    this.spawnTetromino(this.tetrominos.shift());
+  if (this.queue.length) {
+    this.spawnTetromino(this.queue.shift());
     this.view.renderNextTetromino();
   }
 };
@@ -310,7 +311,7 @@ Game.prototype.resume = function () {
 
 Game.prototype.end = function () {
   this.halt();
-  this.tetrominos = [];
+  this.queue = [];
   this.clearGrid();
   this.view.showEndScreen();
   this.input.enableStart();

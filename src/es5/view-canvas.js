@@ -92,7 +92,7 @@ ViewCanvas.prototype.init = function (game, callback) {
 };
 
 ViewCanvas.prototype.getMaxTetrominoSize = function () {
-  return Object.values(tetrominos).reduce(function (max, tetromino) {
+  return Object.values(this.game.tetrominos).reduce(function (max, tetromino) {
     var curr = tetromino.shape[0][0].length;
     return curr > max ? curr : max;
   }, 0);
@@ -188,9 +188,9 @@ ViewCanvas.prototype.renderNextTetromino = function () {
   var cnv = this.ui.preview;
   var ctx = cnv.ctx;
   ctx.clearRect(0, 0, cnv.width, cnv.height);
-  if (!this.game.tetrominos.length) return;
+  if (!this.game.queue.length) return;
 
-  var tetromino = this.game.tetrominos[0];
+  var tetromino = this.game.queue[0];
   var images = this.ui.images;
   var image = (tetromino.tile && images[tetromino.tile]) || images.blue;
   var blocks = tetromino.blocks.filter(function (row) {
