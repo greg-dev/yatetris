@@ -105,6 +105,7 @@ Game.prototype.spawnTetromino = function (tetromino) {
 Game.prototype.spawnNextTetromino = function () {
   if (this.tetrominos.length) {
     this.spawnTetromino(this.tetrominos.shift());
+    this.view.renderNextTetromino();
   }
 };
 

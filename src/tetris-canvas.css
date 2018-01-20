@@ -27,3 +27,8 @@
   left: 1px;
   background-color: #ffffff;
 }
+
+.ui canvas.preview {
+  position: absolute;
+  border: 1px solid #d7d8db;
+}

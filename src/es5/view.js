@@ -19,6 +19,9 @@ View.prototype.missingMethodError = function (method) {
 View.prototype.renderTetromino = function () {
   this.missingMethodError('renderTetromino');
 };
+View.prototype.renderNextTetromino = function () {
+  this.missingMethodError('renderNextTetromino');
+};
 View.prototype.removeTetromino = function () {
   this.missingMethodError('removeTetromino');
 };

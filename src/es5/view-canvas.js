@@ -17,6 +17,9 @@ ViewCanvas.prototype.instance = 0;
 ViewCanvas.prototype.init = function (game, callback) {
   View.prototype.init.call(this, game);
 
+  var view = this.game.view;
+  var blockSize = view.blockSize;
+
   // clear root
   while (this.params.root.firstChild) {
     this.params.root.removeChild(this.params.root.firstChild);
@@ -26,8 +29,6 @@ ViewCanvas.prototype.init = function (game, callback) {
   var ui = document.createElement('div');
   ui.id = 'ui-' + this.instance;
   ui.className = 'ui';
-  ui.style.width = (this.cells + 2) * this.blockSize + 'px';
-  ui.style.height = (this.rows + 2) * this.blockSize + 'px';
   this.params.root.appendChild(ui);
   this.ui = ui;
 
@@ -35,8 +36,8 @@ ViewCanvas.prototype.init = function (game, callback) {
   var board = document.createElement('div');
   board.id = 'board-' + this.instance;
   board.className = 'board';
-  board.style.top = this.blockSize + 'px';
-  board.style.left = this.blockSize + 'px';
+  board.style.top = blockSize + 'px';
+  board.style.left = blockSize + 'px';
   this.ui.appendChild(board);
   this.ui.board = board;
 
@@ -46,14 +47,29 @@ ViewCanvas.prototype.init = function (game, callback) {
   // overlay layer for text informations and animations
   var layers = ['dropped', 'falling', 'overlay'];
 
-  var view = this;
-  var canvasWidth = view.cells * view.blockSize;
-  var canvasHeight = view.rows * view.blockSize;
+  var boardWidth = view.cells * blockSize;
+  var boardHeight = view.rows * blockSize;
   this.ui.layers = layers.reduce(function (layers, layer) {
-    layers[layer] = createCanvasLayer(canvasWidth, canvasHeight, layer);
+    layers[layer] = createCanvasLayer(boardWidth, boardHeight, layer);
     view.ui.board.appendChild(layers[layer]);
     return layers;
   }, {});
+
+  // create canvas for next tetromino preview
+  var tetrominoSize = this.getMaxTetrominoSize();
+  var preview = createCanvasLayer(
+    (tetrominoSize + 1) * blockSize,
+    (tetrominoSize + 1) * blockSize,
+    'preview'
+  );
+  preview.style.top = blockSize + 'px';
+  preview.style.right = blockSize + 'px';
+  view.ui.appendChild(preview);
+  this.ui.preview = preview;
+
+  // update ui size
+  ui.style.width = (this.cells + 2 + tetrominoSize + 2) * blockSize + 'px';
+  ui.style.height = (this.rows + 2) * blockSize + 'px';
 
   function createCanvasLayer (width, height, layer) {
     var canvas = document.createElement('canvas');
@@ -69,6 +85,13 @@ ViewCanvas.prototype.init = function (game, callback) {
     view.ready = true;
     callback();
   });
+};
+
+ViewCanvas.prototype.getMaxTetrominoSize = function () {
+  return Object.values(tetrominos).reduce(function (max, tetromino) {
+    var curr = tetromino.shape[0][0].length;
+    return curr > max ? curr : max;
+  }, 0);
 };
 
 ViewCanvas.prototype.loadImages = function (callback) {
@@ -145,6 +168,36 @@ ViewCanvas.prototype.fitText = function (cnv, text, initialSize, y) {
   return false;
 };
 
+ViewCanvas.prototype.renderNextTetromino = function () {
+  var cnv = this.ui.preview;
+  var ctx = cnv.ctx;
+  ctx.clearRect(0, 0, cnv.width, cnv.height);
+  if (!this.game.tetrominos.length) return;
+
+  var tetromino = this.game.tetrominos[0];
+  var images = this.ui.images;
+  var image = (tetromino.tile && images[tetromino.tile]) || images.blue;
+  var blocks = tetromino.blocks.filter(function (row) {
+    return row.reduce(function (sum, cell) {
+      return sum + cell;
+    }, 0);
+  });
+  var blockSize = this.blockSize;
+  var dx = (cnv.width - blocks[0].length * blockSize) / 2;
+  var dy = ((cnv.height - blocks.length * blockSize) / 2) + tetromino.spawnLine;
+  for (var y = 0; y < blocks.length; y++) {
+    for (var x = 0; x < blocks[0].length; x++) {
+      if (blocks[y][x]) {
+        ctx.drawImage(
+          image,
+          x * blockSize + dx,
+          y * blockSize + dy
+        );
+      }
+    }
+  }
+};
+
 ViewCanvas.prototype.renderTetromino = function () {
   var cnv = this.ui.layers.falling;
   var ctx = cnv.ctx;
@@ -153,15 +206,16 @@ ViewCanvas.prototype.renderTetromino = function () {
   var images = this.ui.images;
   var image = (tetromino.tile && images[tetromino.tile]) || images.blue;
   var blocks = tetromino.blocks;
+  var blockSize = this.blockSize;
   for (var y = 0; y < blocks.length; y++) {
     for (var x = 0; x < blocks[0].length; x++) {
       if (blocks[y][x]) {
         ctx.drawImage(
           image,
-          (tetromino.x + x) * this.blockSize,
-          (tetromino.y + y - this.hiddenLines) * this.blockSize,
-          this.blockSize,
-          this.blockSize
+          (tetromino.x + x) * blockSize,
+          (tetromino.y + y - this.hiddenLines) * blockSize,
+          blockSize,
+          blockSize
         );
       }
     }
