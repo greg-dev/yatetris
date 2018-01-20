@@ -168,6 +168,12 @@ ViewCanvas.prototype.renderTetromino = function () {
   }
 };
 
+ViewCanvas.prototype.removeTetromino = function () {
+  var cnv = this.ui.layers.falling;
+  var ctx = cnv.ctx;
+  ctx.clearRect(0, 0, cnv.width, cnv.height);
+};
+
 ViewCanvas.prototype.showGameScreen = function () {
   this.hideOverlay();
 };
@@ -199,43 +205,57 @@ ViewCanvas.prototype.removedLinesInfo = {
   4: 'perfect'
 };
 
-ViewCanvas.prototype.renderRemovedLines = function (removedLines) {
+ViewCanvas.prototype.renderRemovedLines = function (removedLines, callback) {
   var cnv = this.ui.layers.overlay;
-  cnv.style.opacity = 1;
   var ctx = cnv.ctx;
   ctx.clearRect(0, 0, cnv.width, cnv.height);
-  var image = this.ui.images.red;
   var blocks = this.game.grid;
-  for (var i = 0; i < removedLines.length; i++) {
-    for (var x = 0; x < blocks[0].length; x++) {
-      ctx.drawImage(
-        image,
-        x * this.blockSize,
-        (removedLines[i] - this.hiddenLines) * this.blockSize,
-        this.blockSize,
-        this.blockSize
-      );
-    }
-  }
-
+  var blockSize = this.blockSize;
+  var hiddenLines = this.hiddenLines;
   var removedLinesInfo = this.removedLinesInfo[removedLines.length];
   if (removedLinesInfo) {
     this.fitText(cnv, removedLinesInfo, 20, 20);
   }
 
+  var images = Object.values(this.ui.images);
   var opacity = cnv.style.opacity;
   var animationTimer = this.animationTimer;
   animationTimer = setInterval(function () {
     opacity = parseFloat(parseFloat(opacity).toFixed(1)) + 0.1;
     cnv.style.opacity = opacity;
+    for (var i = 0; i < removedLines.length; i++) {
+      for (var x = 0; x < blocks[0].length; x++) {
+        var image = images[Math.floor(Math.random() * images.length)];
+        cnv.ctx.drawImage(
+          image,
+          x * blockSize,
+          (removedLines[i] - hiddenLines) * blockSize,
+          blockSize,
+          blockSize
+        );
+      }
+    }
     if (opacity >= 0.6) {
       clearInterval(animationTimer);
       animationTimer = setInterval(function () {
         opacity = parseFloat(parseFloat(opacity).toFixed(1)) - 0.1;
         cnv.style.opacity = opacity;
+        for (var i = 0; i < removedLines.length; i++) {
+          for (var x = 0; x < blocks[0].length; x++) {
+            var image = images[Math.floor(Math.random() * images.length)];
+            cnv.ctx.drawImage(
+              image,
+              x * blockSize,
+              (removedLines[i] - hiddenLines) * blockSize,
+              blockSize,
+              blockSize
+            );
+          }
+        }
         if (opacity <= 0) {
           opacity = 0;
           clearInterval(animationTimer);
+          callback();
         }
       }, 30);
     }

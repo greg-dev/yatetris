@@ -131,16 +131,27 @@ Game.prototype.tryMoveDown = function () {
     this.dropTetromino();
     var removedLines = this.tryRemoveLines();
     if (removedLines.length) {
-      this.view.renderRemovedLines(removedLines);
+      this.applySpeed(0);
+      this.input.disableMove();
+      var game = this;
+      this.view.renderRemovedLines(removedLines, function () {
+        game.view.removeTetromino();
+        game.view.renderGrid();
+        game.createNextTetromino();
+        game.spawnNextTetromino();
+        game.input.enableMove();
+        game.applySpeed(game.speed);
+      });
+    } else {
+      this.view.renderGrid();
+      this.createNextTetromino();
+      this.spawnNextTetromino();
+      if (this.tetromino.blocked()) {
+        this.end();
+        return;
+      }
+      this.view.renderTetromino();
     }
-    this.view.renderGrid();
-    this.createNextTetromino();
-    this.spawnNextTetromino();
-    if (this.tetromino.blocked()) {
-      this.end();
-      return;
-    }
-    this.view.renderTetromino();
   }
 };
 

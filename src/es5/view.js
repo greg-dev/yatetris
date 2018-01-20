@@ -19,10 +19,13 @@ View.prototype.missingMethodError = function (method) {
 View.prototype.renderTetromino = function () {
   this.missingMethodError('renderTetromino');
 };
+View.prototype.removeTetromino = function () {
+  this.missingMethodError('removeTetromino');
+};
 View.prototype.renderGrid = function () {
   this.missingMethodError('renderGrid');
 };
-View.prototype.renderRemovedLines = function (removedLines) {
+View.prototype.renderRemovedLines = function (removedLines, callback) {
   this.missingMethodError('renderRemovedLines');
 };
 View.prototype.showStartScreen = function () {
