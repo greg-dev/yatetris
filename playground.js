@@ -74,4 +74,81 @@ window.onload = function () {
       }
     }
   });
+
+  var game4 = new Game({
+    rows: 6,
+    cells: 3,
+    view: new ViewCanvas({
+      root: document.getElementById('game4')
+    }),
+    input: new InputKeyboard(),
+    tetrominos: {
+      i: {
+        tile: 'red',
+        shape: [
+          [
+            [0, 0],
+            [1, 1]
+          ],
+          [
+            [1, 0],
+            [1, 0]
+          ],
+          [
+            [1, 1],
+            [0, 0]
+          ],
+          [
+            [0, 1],
+            [0, 1]
+          ]
+        ],
+        line: 0
+      },
+      j: {
+        tile: 'red',
+        shape: [
+          [
+            [0, 1],
+            [1, 1]
+          ],
+          [
+            [1, 0],
+            [1, 1]
+          ],
+          [
+            [1, 1],
+            [1, 0]
+          ],
+          [
+            [1, 1],
+            [0, 1]
+          ]
+        ],
+        line: 0
+      },
+      l: {
+        tile: 'red',
+        shape: [
+          [
+            [1, 0],
+            [1, 1]
+          ],
+          [
+            [1, 1],
+            [1, 0]
+          ],
+          [
+            [1, 1],
+            [0, 1]
+          ],
+          [
+            [0, 1],
+            [1, 1]
+          ]
+        ],
+        line: 0
+      }
+    }
+  });
 };
