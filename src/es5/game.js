@@ -4,9 +4,10 @@ function Game (options) {
   this.grid = [];
   this.tetrominos = [];
   this.tetromino = null;
-  this.speed = 1000;
   this.timeout = null;
 
+  this.speed = 0;
+  this.level = 0;
   this.lines = 0;
   this.score = 0;
 
@@ -16,6 +17,15 @@ function Game (options) {
 }
 
 Game.prototype.pointsForLines = [0, 40, 100, 300, 1200];
+Game.prototype.linesPerLevel = 5;
+Game.prototype.speedPerLevel = 80;
+Game.prototype.initialSpeed = 1000;
+Game.prototype.removedLinesInfo = {
+  1: 'single',
+  2: 'double',
+  3: 'triple',
+  4: 'tetris'
+};
 
 Game.prototype.validateOption = function (options) {
   options = typeof options === 'object' ? options : {};
@@ -77,6 +87,7 @@ Game.prototype.showStartScreen = function () {
 };
 
 Game.prototype.startGame = function () {
+  this.resetLevelSettings();
   this.input.disableStart();
   this.view.showGameScreen();
   this.view.renderGrid();
@@ -129,6 +140,18 @@ Game.prototype.dropTetromino = function () {
 
 Game.prototype.tryRotate = function () {
   if (this.tetromino.tryRotate()) {
+    this.view.renderTetromino();
+  }
+};
+
+Game.prototype.tryMoveLeft = function () {
+  if (this.tetromino.tryMoveLeft()) {
+    this.view.renderTetromino();
+  }
+};
+
+Game.prototype.tryMoveRight = function () {
+  if (this.tetromino.tryMoveRight()) {
     this.view.renderTetromino();
   }
 };
@@ -197,8 +220,27 @@ Game.prototype.removeLinesFromGrid = function (removedLines) {
   }
 };
 
+Game.prototype.calculateLevel = function (lines) {
+  return Math.floor(lines / this.linesPerLevel) + 1;
+};
+
+Game.prototype.calculateSpeed = function (level) {
+  return this.initialSpeed - (this.speedPerLevel * (this.level - 1));
+};
+
 Game.prototype.calculateScore = function (lines) {
-  return this.pointsForLines[lines];
+  return this.pointsForLines[lines] * this.level;
+};
+
+Game.prototype.setLevel = function (level) {
+  this.level = level;
+};
+
+Game.prototype.setSpeed = function (speed) {
+  if (this.speed !== speed) {
+    this.applySpeed(speed);
+  }
+  this.speed = speed;
 };
 
 Game.prototype.addScore = function (score) {
@@ -210,23 +252,32 @@ Game.prototype.addLines = function (lines) {
 };
 
 Game.prototype.updateProgress = function (lines) {
+  var score = 0;
   if (lines) {
-    this.addScore(this.calculateScore(lines));
     this.addLines(lines);
+    this.setLevel(this.calculateLevel(this.lines));
+    score = this.calculateScore(lines);
+    this.addScore(score);
+    this.setSpeed(this.calculateSpeed(this.level));
   }
-  this.view.updateProgress(this.score, this.lines);
+  var progress = [
+    'Level: ' + this.level,
+    'Speed: ' + this.speed,
+    'Score: ' + this.score,
+    'Lines: ' + this.lines
+  ];
+  if (lines) {
+    progress.push(this.removedLinesInfo[lines]);
+    progress.push('+' + score + ' points');
+  }
+  this.view.updateProgress(progress);
 };
 
-Game.prototype.tryMoveLeft = function () {
-  if (this.tetromino.tryMoveLeft()) {
-    this.view.renderTetromino();
-  }
-};
-
-Game.prototype.tryMoveRight = function () {
-  if (this.tetromino.tryMoveRight()) {
-    this.view.renderTetromino();
-  }
+Game.prototype.resetLevelSettings = function () {
+  this.level = 1;
+  this.speed = this.initialSpeed;
+  this.lines = 0;
+  this.score = 0;
 };
 
 Game.prototype.applySpeed = function (speed) {

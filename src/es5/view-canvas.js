@@ -65,8 +65,8 @@ ViewCanvas.prototype.init = function (game, callback) {
   this.ui.preview = preview;
 
   // create canvas for game progress
-  var progress = createCanvasLayer(previewWidth, previewWidth, 'progress');
-  progress.style.top = (2 * blockSize + preview.height) + 'px';
+  var progress = createCanvasLayer(previewWidth, previewWidth + blockSize, 'progress');
+  progress.style.top = (1.5 * blockSize + preview.height) + 'px';
   progress.style.right = blockSize + 'px';
   view.ui.appendChild(progress);
   this.ui.progress = progress;
@@ -269,12 +269,6 @@ ViewCanvas.prototype.renderGrid = function () {
   }
 };
 
-ViewCanvas.prototype.removedLinesInfo = {
-  2: 'nice',
-  3: 'awesome',
-  4: 'perfect'
-};
-
 ViewCanvas.prototype.renderRemovedLines = function (removedLines, callback) {
   var cnv = this.ui.layers.overlay;
   var ctx = cnv.ctx;
@@ -282,10 +276,6 @@ ViewCanvas.prototype.renderRemovedLines = function (removedLines, callback) {
   var blocks = this.game.grid;
   var blockSize = this.blockSize;
   var hiddenLines = this.hiddenLines;
-  var removedLinesInfo = this.removedLinesInfo[removedLines.length];
-  if (removedLinesInfo) {
-    this.fitText(cnv, removedLinesInfo, 20, 20);
-  }
 
   var images = Object.values(this.ui.images);
   var opacity = cnv.style.opacity;
@@ -346,23 +336,19 @@ ViewCanvas.prototype.showOverlay = function (opacity) {
   this.ui.layers.overlay.style.opacity = opacity || 1;
 };
 
-ViewCanvas.prototype.updateProgress = function (totalScore, totalLines) {
+ViewCanvas.prototype.updateProgress = function (info) {
   var cnv = this.ui.progress;
   cnv.ctx.clearRect(0, 0, cnv.width, cnv.height);
-  var stats = [
-    'Score: ' + totalScore,
-    'Lines: ' + totalLines
-  ];
-  var initialSize = 20;
+  var initialSize = this.blockSize - 2;
   var size = initialSize;
-  for (var i = 0; i < stats.length; i++) {
-    var params = this.getFitTextParams(cnv, stats[i], initialSize);
+  for (var i = 0; i < info.length; i++) {
+    var params = this.getFitTextParams(cnv, info[i], initialSize);
     if (params.size < size) {
       size = params.size;
     }
   }
 
-  for (i = 0; i < stats.length; i++) {
-    this.fitText(cnv, stats[i], size, (i + 1) * size);
+  for (i = 0; i < info.length; i++) {
+    this.fitText(cnv, info[i], size, (i + 1) * size);
   }
 };
