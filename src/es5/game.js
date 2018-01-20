@@ -6,8 +6,8 @@ function Game (options) {
   this.tetromino = null;
   this.timeout = null;
 
-  this.speed = 0;
-  this.level = 0;
+  this.speedPercent = 100;
+  this.level = 1;
   this.lines = 0;
   this.score = 0;
 
@@ -18,7 +18,7 @@ function Game (options) {
 
 Game.prototype.pointsForLines = [0, 40, 100, 300, 1200];
 Game.prototype.linesPerLevel = 5;
-Game.prototype.speedPerLevel = 80;
+Game.prototype.speedPercentIncreasePerLevel = 10;
 Game.prototype.initialSpeed = 1000;
 Game.prototype.removedLinesInfo = {
   1: 'single',
@@ -70,7 +70,7 @@ Game.prototype.clearGrid = function () {
 Game.prototype.init = function (options) {
   this.grid = options.grid || this.createEmptyGrid(options.rows, options.cells);
   this.tetrominos = options.tetrominos || this.tetrominos;
-  this.speed = parseInt(options.speed) || this.speed;
+  this.speedPercent = parseInt(options.speedPercent) || this.speedPercent;
 
   var showStartScreen = this.showStartScreen.bind(this);
   this.view = options.view;
@@ -225,7 +225,7 @@ Game.prototype.calculateLevel = function (lines) {
 };
 
 Game.prototype.calculateSpeed = function (level) {
-  return this.initialSpeed - (this.speedPerLevel * (this.level - 1));
+  return 100 + this.speedPercentIncreasePerLevel * (this.level - 1);
 };
 
 Game.prototype.calculateScore = function (lines) {
@@ -236,11 +236,11 @@ Game.prototype.setLevel = function (level) {
   this.level = level;
 };
 
-Game.prototype.setSpeed = function (speed) {
-  if (this.speed !== speed) {
-    this.applySpeed(speed);
+Game.prototype.setSpeed = function (speedPercent) {
+  if (this.speedPercent !== speedPercent) {
+    this.applySpeed(speedPercent);
   }
-  this.speed = speed;
+  this.speedPercent = speedPercent;
 };
 
 Game.prototype.addScore = function (score) {
@@ -262,7 +262,7 @@ Game.prototype.updateProgress = function (lines) {
   }
   var progress = [
     'Level: ' + this.level,
-    'Speed: ' + this.speed,
+    'Speed: ' + this.speedPercent + '%',
     'Score: ' + this.score,
     'Lines: ' + this.lines
   ];
@@ -275,23 +275,23 @@ Game.prototype.updateProgress = function (lines) {
 
 Game.prototype.resetLevelSettings = function () {
   this.level = 1;
-  this.speed = this.initialSpeed;
+  this.speedPercent = 100;
   this.lines = 0;
   this.score = 0;
 };
 
-Game.prototype.applySpeed = function (speed) {
+Game.prototype.applySpeed = function (speedPercent) {
   clearTimeout(this.timeout);
-  if (speed) {
+  if (speedPercent) {
     var game = this;
     this.timeout = setInterval(function () {
       game.tryMoveDown();
-    }, speed);
+    }, 100 * this.initialSpeed / speedPercent);
   }
 };
 
 Game.prototype.startTimer = function () {
-  this.applySpeed(this.speed);
+  this.applySpeed(this.speedPercent);
 };
 
 Game.prototype.stopTimer = function () {
