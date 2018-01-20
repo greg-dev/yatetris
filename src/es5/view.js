@@ -40,3 +40,6 @@ View.prototype.showGameScreen = function () {
 View.prototype.showEndScreen = function () {
   this.missingMethodError('showEndScreen');
 };
+View.prototype.updateProgress = function (totalScore, totalLines) {
+  this.missingMethodError('updateProgress');
+};

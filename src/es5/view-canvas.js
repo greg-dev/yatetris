@@ -57,15 +57,19 @@ ViewCanvas.prototype.init = function (game, callback) {
 
   // create canvas for next tetromino preview
   var tetrominoSize = this.getMaxTetrominoSize();
-  var preview = createCanvasLayer(
-    (tetrominoSize + 1) * blockSize,
-    (tetrominoSize + 1) * blockSize,
-    'preview'
-  );
+  var previewWidth = (tetrominoSize + 1) * blockSize;
+  var preview = createCanvasLayer(previewWidth, previewWidth, 'preview');
   preview.style.top = blockSize + 'px';
   preview.style.right = blockSize + 'px';
   view.ui.appendChild(preview);
   this.ui.preview = preview;
+
+  // create canvas for game progress
+  var progress = createCanvasLayer(previewWidth, previewWidth, 'progress');
+  progress.style.top = (2 * blockSize + preview.height) + 'px';
+  progress.style.right = blockSize + 'px';
+  view.ui.appendChild(progress);
+  this.ui.progress = progress;
 
   // update ui size
   ui.style.width = (this.cells + 2 + tetrominoSize + 2) * blockSize + 'px';
@@ -154,16 +158,28 @@ ViewCanvas.prototype.showEndScreen = function () {
   this.showOverlay(0.7);
 };
 
-ViewCanvas.prototype.fitText = function (cnv, text, initialSize, y) {
+ViewCanvas.prototype.getFitTextParams = function (cnv, text, initialSize) {
   var ctx = cnv.ctx;
   for (var size = initialSize; size > 0; size--) {
     ctx.font = size + 'px Arial';
     var width = ctx.measureText(text).width;
     if (width < cnv.width) {
-      ctx.font = size + 'px Arial';
-      ctx.fillText(text, (cnv.width - width) / 2, y);
-      return size;
+      return {
+        size: size,
+        width: width
+      };
     }
+  }
+  return false;
+};
+
+ViewCanvas.prototype.fitText = function (cnv, text, initialSize, y) {
+  var ctx = cnv.ctx;
+  var params = this.getFitTextParams(cnv, text, initialSize);
+  if (typeof params === 'object') {
+    ctx.font = params.size + 'px Arial';
+    ctx.fillText(text, (cnv.width - params.width) / 2, y);
+    return params.size;
   }
   return false;
 };
@@ -328,4 +344,25 @@ ViewCanvas.prototype.hideOverlay = function () {
 
 ViewCanvas.prototype.showOverlay = function (opacity) {
   this.ui.layers.overlay.style.opacity = opacity || 1;
+};
+
+ViewCanvas.prototype.updateProgress = function (totalScore, totalLines) {
+  var cnv = this.ui.progress;
+  cnv.ctx.clearRect(0, 0, cnv.width, cnv.height);
+  var stats = [
+    'Score: ' + totalScore,
+    'Lines: ' + totalLines
+  ];
+  var initialSize = 20;
+  var size = initialSize;
+  for (var i = 0; i < stats.length; i++) {
+    var params = this.getFitTextParams(cnv, stats[i], initialSize);
+    if (params.size < size) {
+      size = params.size;
+    }
+  }
+
+  for (i = 0; i < stats.length; i++) {
+    this.fitText(cnv, stats[i], size, (i + 1) * size);
+  }
 };
