@@ -78,7 +78,7 @@ Game.prototype.startGame = function () {
   this.createNextTetromino();
   this.createNextTetromino();
   this.spawnNextTetromino();
-  this.play();
+  this.resume();
 };
 
 Game.prototype.getRandomTetrominoData = function () {
@@ -110,10 +110,12 @@ Game.prototype.spawnNextTetromino = function () {
 };
 
 Game.prototype.dropTetromino = function () {
-  for (var y = 0; y < this.tetromino.blocks.length; y++) {
-    for (var x = 0; x < this.tetromino.blocks.length; x++) {
-      if (this.tetromino.blocks[y][x]) {
-        this.grid[this.tetromino.y + y][this.tetromino.x + x] = this.tetromino.blocks[y][x];
+  var tetromino = this.tetromino;
+  var blocks = tetromino.blocks;
+  for (var y = 0; y < blocks.length; y++) {
+    for (var x = 0; x < blocks.length; x++) {
+      if (blocks[y][x]) {
+        this.grid[tetromino.y + y][tetromino.x + x] = blocks[y][x];
       }
     }
   }
@@ -126,32 +128,31 @@ Game.prototype.tryRotate = function () {
 };
 
 Game.prototype.tryMoveDown = function () {
-  if (this.tetromino.tryMoveDown()) {
-    this.view.renderTetromino();
+  var game = this;
+  var view = game.view;
+  if (game.tetromino.tryMoveDown()) {
+    view.renderTetromino();
   } else {
-    this.dropTetromino();
-    var removedLines = this.tryRemoveLines();
+    game.dropTetromino();
+    var removedLines = game.tryRemoveLines();
     if (removedLines.length) {
-      this.applySpeed(0);
-      this.input.disableMove();
-      var game = this;
-      this.view.renderRemovedLines(removedLines, function () {
-        game.view.removeTetromino();
-        game.view.renderGrid();
+      game.halt();
+      view.renderRemovedLines(removedLines, function () {
+        view.removeTetromino();
+        view.renderGrid();
         game.createNextTetromino();
         game.spawnNextTetromino();
-        game.input.enableMove();
-        game.applySpeed(game.speed);
+        game.resume();
       });
     } else {
-      this.view.renderGrid();
-      this.createNextTetromino();
-      this.spawnNextTetromino();
-      if (this.tetromino.blocked()) {
-        this.end();
+      view.renderGrid();
+      game.createNextTetromino();
+      game.spawnNextTetromino();
+      if (game.tetromino.blocked()) {
+        game.end();
         return;
       }
-      this.view.renderTetromino();
+      view.renderTetromino();
     }
   }
 };
@@ -201,11 +202,6 @@ Game.prototype.tryMoveRight = function () {
   }
 };
 
-Game.prototype.play = function () {
-  this.input.enableMove();
-  this.applySpeed(this.speed);
-};
-
 Game.prototype.applySpeed = function (speed) {
   clearTimeout(this.timeout);
   if (speed) {
@@ -216,9 +212,26 @@ Game.prototype.applySpeed = function (speed) {
   }
 };
 
-Game.prototype.end = function () {
-  this.input.disableMove();
+Game.prototype.startTimer = function () {
+  this.applySpeed(this.speed);
+};
+
+Game.prototype.stopTimer = function () {
   this.applySpeed(0);
+};
+
+Game.prototype.halt = function () {
+  this.stopTimer();
+  this.input.disableMove();
+};
+
+Game.prototype.resume = function () {
+  this.input.enableMove();
+  this.startTimer();
+};
+
+Game.prototype.end = function () {
+  this.halt();
   this.tetrominos = [];
   this.clearGrid();
   this.view.showEndScreen();
