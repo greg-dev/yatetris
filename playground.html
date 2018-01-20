@@ -38,6 +38,7 @@
       <h3>Check the links above for more examples. Github page: <a href="https://github.com/greg-dev/yatetris">https://github.com/greg-dev/yatetris</a></h3>
       <div id="game1" class="game">#game1</div>
       <div id="game2" class="game">#game2</div>
+      <div id="game3" class="game">#game3</div>
       <pre>
       var game1 = new Game({
         rows: 10,
@@ -47,7 +48,7 @@
         }),
         input: new InputKeyboard()
       });
-
+    
       var game2 = new Game({
         rows: 10,
         cells: 5,
@@ -55,6 +56,60 @@
           root: document.getElementById('game2')
         }),
         input: new InputKeyboard()
+      });
+    
+      var game3 = new Game({
+        rows: 20,
+        cells: 6,
+        view: new ViewCanvas({
+          root: document.getElementById('game3')
+        }),
+        input: new InputKeyboard(),
+        tetrominos: {
+          small: {
+            shape: [
+              [
+                [1]
+              ]
+            ],
+            line: 1
+          },
+          big: {
+            shape: [
+              [
+                [1, 1, 1],
+                [1, 1, 1],
+                [1, 1, 1]
+              ]
+            ],
+            line: 0
+          },
+          fck: {
+            shape: [
+              [
+                [0, 1, 0],
+                [0, 1, 0],
+                [1, 1, 1]
+              ],
+              [
+                [1, 0, 0],
+                [1, 1, 1],
+                [1, 0, 0]
+              ],
+              [
+                [1, 1, 1],
+                [0, 1, 0],
+                [0, 1, 0]
+              ],
+              [
+                [0, 0, 1],
+                [1, 1, 1],
+                [0, 0, 1]
+              ]
+            ],
+            line: 0
+          }
+        }
       });
       </pre>
     </div>
