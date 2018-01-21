@@ -3,7 +3,7 @@
 /* eslint-disable no-unused-vars */
 
 var assets = {
-  dir: './assets/',
+  path: './assets/',
   files: {
     blocks: {
       dropped: 'background.png',
@@ -15,7 +15,7 @@ var assets = {
       red: 'block_red.png',
       yellow: 'block_yellow.png'
     }
-  /*
+    /*
     tetrominos: {
       I: [
         'I_1-3.png',

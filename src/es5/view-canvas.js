@@ -13,23 +13,38 @@ function ViewCanvas (params) {
 ViewCanvas.prototype = Object.create(View.prototype);
 
 ViewCanvas.prototype.instance = 0;
+ViewCanvas.prototype.animationSpeed = 30;
+ViewCanvas.prototype.animationBlocks = [
+  'blue', 'cyan', 'green', 'orange', 'purple', 'red', 'yellow'
+];
 
 ViewCanvas.prototype.init = function (game, callback) {
   View.prototype.init.call(this, game);
+
+  var params = this.params;
+  var animationSpeed = parseInt(params.animationSpeed, 10);
+  if (animationSpeed) {
+    this.animationSpeed = animationSpeed;
+  }
+
+  var animationBlocks = params.animationBlocks;
+  if (typeof animationBlocks === 'object' && animationBlocks.length) {
+    this.animationBlocks = animationBlocks;
+  }
 
   var view = this.game.view;
   var blockSize = view.blockSize;
 
   // clear root
-  while (this.params.root.firstChild) {
-    this.params.root.removeChild(this.params.root.firstChild);
+  while (params.root.firstChild) {
+    params.root.removeChild(params.root.firstChild);
   }
 
   // create ui
   var ui = document.createElement('div');
   ui.id = 'ui-' + this.instance;
   ui.className = 'ui';
-  this.params.root.appendChild(ui);
+  params.root.appendChild(ui);
   this.ui = ui;
 
   // create board for falling tetromino and dropped blocks
@@ -124,7 +139,7 @@ ViewCanvas.prototype.loadImages = function (callback) {
       }(this.view, loadedImages.length, callback)), loadedImages.length * 100);
     };
 
-    image.src = (this.assets.dir || '') + filename;
+    image.src = (this.assets.path || '') + filename;
   }
 };
 
@@ -281,49 +296,37 @@ ViewCanvas.prototype.renderRemovedLines = function (removedLines, callback) {
   var blockSize = this.blockSize;
   var hiddenLines = this.hiddenLines;
 
-  var images = Object.values(this.ui.images);
-  var opacity = cnv.style.opacity;
+  var images = this.ui.images;
+  var animationImages = this.animationBlocks.reduce(function (imgs, block) {
+    imgs.push(images[block]);
+    return imgs;
+  }, []);
+
+  var animationStep = 0;
   var animationTimer = this.animationTimer;
   animationTimer = setInterval(function () {
-    opacity = parseFloat(parseFloat(opacity).toFixed(1)) + 0.1;
-    cnv.style.opacity = opacity;
+    cnv.style.opacity = 1 - (parseFloat(parseFloat(animationStep * 0.1).toFixed(1)));
     for (var i = 0; i < removedLines.length; i++) {
       for (var x = 0; x < blocks[0].length; x++) {
-        var image = images[Math.floor(Math.random() * images.length)];
-        cnv.ctx.drawImage(
-          image,
-          x * blockSize,
-          (removedLines[i] - hiddenLines) * blockSize,
-          blockSize,
-          blockSize
-        );
+        var image = animationImages[animationStep - 1];
+        if (image) {
+          cnv.ctx.drawImage(
+            image,
+            x * blockSize,
+            (removedLines[i] - hiddenLines) * blockSize,
+            blockSize,
+            blockSize
+          );
+        }
       }
     }
-    if (opacity >= 0.6) {
+    if (animationStep === animationImages.length) {
+      cnv.style.opacity = 0;
       clearInterval(animationTimer);
-      animationTimer = setInterval(function () {
-        opacity = parseFloat(parseFloat(opacity).toFixed(1)) - 0.1;
-        cnv.style.opacity = opacity;
-        for (var i = 0; i < removedLines.length; i++) {
-          for (var x = 0; x < blocks[0].length; x++) {
-            var image = images[Math.floor(Math.random() * images.length)];
-            cnv.ctx.drawImage(
-              image,
-              x * blockSize,
-              (removedLines[i] - hiddenLines) * blockSize,
-              blockSize,
-              blockSize
-            );
-          }
-        }
-        if (opacity <= 0) {
-          opacity = 0;
-          clearInterval(animationTimer);
-          callback();
-        }
-      }, 30);
+      callback();
     }
-  }, 30);
+    animationStep++;
+  }, this.animationSpeed);
 };
 
 ViewCanvas.prototype.clearOverlay = function () {
