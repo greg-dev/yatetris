@@ -168,4 +168,51 @@ window.onload = function () {
       }
     }
   });
+
+  var assetsGame5 = {
+    path: 'https://assets-cdn.github.com/images/icons/emoji/',
+    files: {
+      blocks: {
+        dropped: 'hurtrealbad.png',
+        godmode: 'godmode.png',
+        suspect: 'suspect.png',
+        hurtrealbad: 'hurtrealbad.png',
+        rage1: 'rage1.png',
+        rage2: 'rage2.png',
+        rage3: 'rage3.png',
+        rage4: 'rage4.png',
+        goberserk: 'goberserk.png',
+        finnadie: 'finnadie.png'
+      }
+    }
+  };
+
+  var animationBlocksGame5 = [
+    'rage1',
+    'rage2',
+    'rage3',
+    'rage4',
+    'goberserk',
+    'finnadie',
+    'finnadie'
+  ];
+
+  var tetrominosGame5 = Object.keys(tetrominos).reduce(function (modified, tetromino) {
+    modified[tetromino].tile = 'suspect';
+    return modified;
+  }, tetrominos);
+
+  var game5 = new Game({
+    rows: 10,
+    cells: 5,
+    view: new ViewCanvas({
+      root: document.getElementById('game5'),
+      assets: assetsGame5,
+      blockSize: 32,
+      animationSpeed: 100,
+      animationBlocks: animationBlocksGame5
+    }),
+    input: new InputKeyboard(),
+    tetrominos: tetrominosGame5
+  });
 };
