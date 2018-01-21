@@ -6,7 +6,7 @@ function ViewCanvas (params) {
   this.instance = ++ViewCanvas.prototype.instance;
   this.rows = 0;
   this.cells = 0;
-  this.blockSize = 16;
+  this.blockSize = parseInt(params.blockSize, 10) || 16;
   this.animationTimer = null;
 }
 
@@ -99,10 +99,11 @@ ViewCanvas.prototype.getMaxTetrominoSize = function () {
 };
 
 ViewCanvas.prototype.loadImages = function (callback) {
-  var files = assets.files.blocks;
+  var files = this.assets.files.blocks;
   var imagesToLoad = Object.keys(files).length;
-  for (var filename in files) {
-    var image = this.ui.images[filename] = new Image(); // eslint-disable-line no-undef
+  for (var tile in files) {
+    var filename = files[tile];
+    var image = this.ui.images[tile] = new Image(); // eslint-disable-line no-undef
     image.view = this;
     image.loaded = false;
     image.onload = function () {
@@ -122,7 +123,8 @@ ViewCanvas.prototype.loadImages = function (callback) {
         };
       }(this.view, loadedImages.length, callback)), loadedImages.length * 100);
     };
-    image.src = assets.dir + files[filename];
+
+    image.src = (this.assets.dir || '') + filename;
   }
 };
 
@@ -207,7 +209,9 @@ ViewCanvas.prototype.renderNextTetromino = function () {
         ctx.drawImage(
           image,
           x * blockSize + dx,
-          y * blockSize + dy
+          y * blockSize + dy,
+          blockSize,
+          blockSize
         );
       }
     }
@@ -252,7 +256,7 @@ ViewCanvas.prototype.renderGrid = function () {
   var cnv = this.ui.layers.dropped;
   var ctx = cnv.ctx;
   ctx.clearRect(0, 0, cnv.width, cnv.height);
-  var image = this.ui.images.background;
+  var image = this.ui.images.dropped;
   var blocks = this.game.grid;
   for (var y = 0; y < blocks.length; y++) {
     for (var x = 0; x < blocks[0].length; x++) {

@@ -5,6 +5,7 @@ function View (params) {
 }
 
 View.prototype.init = function (game) {
+  this.assets = JSON.parse(JSON.stringify(this.params.assets || assets));
   this.game = game;
   this.rows = game.grid.length - game.hiddenLines;
   this.cells = game.grid[0].length;

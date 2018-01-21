@@ -6,7 +6,7 @@ var assets = {
   dir: './assets/',
   files: {
     blocks: {
-      background: 'background.png',
+      dropped: 'background.png',
       blue: 'block_blue.png',
       cyan: 'block_cyan.png',
       green: 'block_green.png',

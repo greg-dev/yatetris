@@ -4,7 +4,9 @@
   "description": "Yet another tetris game",
   "main": "index.js",
   "scripts": {
-    "reload": "reload -b -s playground.html"
+    "kill-reload": "kill $(ps xo ppid,pid,command | grep '[r]eload-server.js' | awk '{print $1,$2}'); exit 0",
+    "reload": "reload -b -s playground.html",
+    "dev": "npm run kill-reload; npm run reload"
   },
   "author": "Greg",
   "license": "WTFPL",
