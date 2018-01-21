@@ -1,0 +1,23 @@
+#ui-6.ui {
+  background-color: black;
+}
+
+#ui-6.ui .board canvas.dropped {
+  position: relative;
+  top: 0;
+  left: 0;
+  border: 1px solid brown;
+}
+
+#ui-6.ui .board canvas.overlay {
+  background: url('https://upload.wikimedia.org/wikipedia/commons/5/5d/BurningFlame0.gif') center center;
+}
+
+#ui-6.ui canvas.preview {
+  border: 1px solid brown;
+}
+
+#ui-6.ui canvas.progress {
+  position: absolute;
+  background-color: brown;
+}

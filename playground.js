@@ -169,7 +169,7 @@ window.onload = function () {
     }
   });
 
-  var assetsGame5 = {
+  var assetsGames56 = {
     path: 'https://assets-cdn.github.com/images/icons/emoji/',
     files: {
       blocks: {
@@ -187,7 +187,7 @@ window.onload = function () {
     }
   };
 
-  var animationBlocksGame5 = [
+  var animationBlocksGames56 = [
     'rage1',
     'rage2',
     'rage3',
@@ -197,22 +197,36 @@ window.onload = function () {
     'finnadie'
   ];
 
-  var tetrominosGame5 = Object.keys(tetrominos).reduce(function (modified, tetromino) {
+  var tetrominosGames56 = Object.keys(tetrominos).reduce(function (modified, tetromino) {
     modified[tetromino].tile = 'suspect';
     return modified;
   }, tetrominos);
 
   var game5 = new Game({
-    rows: 10,
+    rows: 11,
     cells: 5,
     view: new ViewCanvas({
       root: document.getElementById('game5'),
-      assets: assetsGame5,
+      assets: assetsGames56,
       blockSize: 32,
       animationSpeed: 100,
-      animationBlocks: animationBlocksGame5
+      animationBlocks: animationBlocksGames56
     }),
     input: new InputKeyboard(),
-    tetrominos: tetrominosGame5
+    tetrominos: tetrominosGames56
+  });
+
+  var game6 = new Game({
+    rows: 11,
+    cells: 5,
+    view: new ViewCanvas({
+      root: document.getElementById('game6'),
+      assets: assetsGames56,
+      blockSize: 32,
+      animationSpeed: 100,
+      animationBlocks: animationBlocksGames56
+    }),
+    input: new InputKeyboard(),
+    tetrominos: tetrominosGames56
   });
 };
