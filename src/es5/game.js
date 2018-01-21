@@ -49,6 +49,26 @@ Game.prototype.validateOption = function (options) {
     );
   }
 
+  var tetrominos = options.tetrominos;
+  if (tetrominos !== undefined) {
+    if (typeof tetrominos === 'object') {
+      for (var t in tetrominos) {
+        var tetromino = tetrominos[t];
+        if (!tetromino.shape ||
+          (typeof tetromino.shape === 'object' && !tetromino.shape.length)
+        ) {
+          throw new Error(
+            'Invalid or missing shape array for tetromino ' + t
+          );
+        }
+      }
+    } else {
+      throw new Error(
+        'The tetromino set must be an object'
+      );
+    }
+  }
+
   return true;
 };
 
