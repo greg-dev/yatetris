@@ -1,6 +1,7 @@
 'use strict';
 
 function Game (options) {
+  this.initialGrid = [];
   this.grid = [];
   this.queue = [];
   this.tetrominos = [];
@@ -89,7 +90,8 @@ Game.prototype.clearGrid = function () {
 };
 
 Game.prototype.init = function (options) {
-  this.grid = options.grid || this.createEmptyGrid(options.rows, options.cells);
+  this.initialGrid = options.grid || this.createEmptyGrid(options.rows, options.cells);
+  this.grid = JSON.parse(JSON.stringify(this.initialGrid));
   this.speedPercent = parseInt(options.speedPercent) || this.speedPercent;
   this.tetrominos = options.tetrominos || tetrominos;
 
@@ -295,6 +297,8 @@ Game.prototype.updateProgress = function (lines) {
 };
 
 Game.prototype.resetLevelSettings = function () {
+  this.grid = JSON.parse(JSON.stringify(this.initialGrid));
+  this.queue = [];
   this.level = 1;
   this.speedPercent = 100;
   this.lines = 0;
@@ -331,8 +335,6 @@ Game.prototype.resume = function () {
 
 Game.prototype.end = function () {
   this.halt();
-  this.queue = [];
-  this.clearGrid();
   this.view.showEndScreen();
   this.input.enableStart();
 };
