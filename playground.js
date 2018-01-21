@@ -13,12 +13,29 @@ window.onload = function () {
   });
 
   var game2 = new Game({
-    rows: 10,
+    rows: 15,
     cells: 5,
     view: new ViewCanvas({
       root: document.getElementById('game2')
     }),
-    input: new InputKeyboard()
+    input: new InputKeyboard(),
+    grid: [
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 0, 0, 0],
+      [0, 1, 0, 1, 0],
+      [0, 0, 0, 0, 0],
+      [0, 0, 1, 0, 0],
+      [1, 0, 0, 0, 1],
+      [0, 1, 1, 1, 0],
+      [0, 0, 0, 0, 0]
+    ]
   });
 
   var game3 = new Game({
