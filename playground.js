@@ -200,7 +200,7 @@ window.onload = function () {
   var tetrominosGames56 = Object.keys(tetrominos).reduce(function (modified, tetromino) {
     modified[tetromino].tile = 'suspect';
     return modified;
-  }, tetrominos);
+  }, JSON.parse(JSON.stringify(tetrominos)));
 
   var game5 = new Game({
     rows: 11,
