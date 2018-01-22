@@ -83,6 +83,21 @@ Game.prototype.validateOption = function (options) {
     }
   }
 
+  var messages = options.messages;
+  if (messages !== undefined) {
+    if (typeof messages === 'object') {
+      for (var m in this.messages) {
+        if (messages[m] === undefined) {
+          throw new Error('Missing custom message key: ' + m);
+        }
+      }
+    } else {
+      throw new Error(
+        'Custom messages must be passed as an object'
+      );
+    }
+  }
+
   return true;
 };
 
@@ -107,6 +122,7 @@ Game.prototype.init = function (options) {
   this.grid = JSON.parse(JSON.stringify(this.initialGrid));
   this.speedPercent = parseInt(options.speedPercent) || this.speedPercent;
   this.tetrominos = options.tetrominos || tetrominos;
+  this.messages = options.messages || this.messages;
 
   var showStartScreen = this.showStartScreen.bind(this);
   this.view = options.view;
