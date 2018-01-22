@@ -50,6 +50,7 @@
       <div id="game7" class="game">#game7</div>
       <div id="game8" class="game">#game8</div>
       <div id="game9" class="game">#game9</div>
+      <div id="game10" class="game">#game10</div>
       <pre>
       var game1 = new Game({
         rows: 10,
@@ -321,6 +322,34 @@
         }),
         input: new InputKeyboard(),
         tetrominos: tetrominosGame9
+      });
+
+      var game10 = new Game({
+        rows: 10,
+        cells: 8,
+        view: new ViewCanvas({
+          root: document.getElementById('game10')
+        }),
+        input: new InputKeyboard(),
+        messages: {
+          title: 'Tetris',
+          startScreenPressToPlay: 'Wciśnij [space] aby zagrać',
+          endScreenPressToPlay: 'Wciśnij [space] i spróbuj ponownie',
+          loadingProgress: 'Wczytane obrazki: %d1/%d2',
+          gameProgress: {
+            level: 'Poziom: %d',
+            lines: 'Linie: %d',
+            score: 'Punkty: %d',
+            speed: 'Prędkość: %d%',
+            points: '+%d punktów',
+            removedLinesInfo: {
+              1: '1 linia',
+              2: '2 linie',
+              3: '3 linie',
+              4: '4 linie'
+            }
+          }
+        }
       });
       </pre>
     </div>
