@@ -114,6 +114,7 @@ ViewCanvas.prototype.getMaxTetrominoSize = function () {
 };
 
 ViewCanvas.prototype.loadImages = function (callback) {
+  var game = this.game;
   var files = this.assets.files.blocks;
   var imagesToLoad = Object.keys(files).length;
   for (var tile in files) {
@@ -131,7 +132,11 @@ ViewCanvas.prototype.loadImages = function (callback) {
 
       setTimeout((function (view, count, callback) {
         return function () {
-          view.renderLoadingProgress('Loaded images: ' + count + '/' + imagesToLoad);
+          var messages = game.messages;
+          messages.progress = game.messages.loadingProgress
+            .replace('%d1', count)
+            .replace('%d2', imagesToLoad);
+          view.renderLoadingProgress(messages);
           if (count >= imagesToLoad) {
             callback(view);
           }
@@ -143,35 +148,31 @@ ViewCanvas.prototype.loadImages = function (callback) {
   }
 };
 
-ViewCanvas.prototype.renderLoadingProgress = function (text) {
+ViewCanvas.prototype.renderLoadingProgress = function (messages) {
   var cnv = this.ui.layers.overlay;
   cnv.ctx.clearRect(0, 0, cnv.width, cnv.height);
 
-  var title = 'tetris';
-  var size = this.fitText(cnv, title, 20, 20);
-  this.fitText(cnv, text, 20, 20 + size);
+  var size = this.fitText(cnv, messages.title, 20, 20);
+  this.fitText(cnv, messages.progress, 20, 20 + size);
   this.showOverlay(0.7);
 };
 
-ViewCanvas.prototype.showStartScreen = function () {
+ViewCanvas.prototype.showStartScreen = function (messages) {
   var cnv = this.ui.layers.overlay;
   cnv.ctx.clearRect(0, 0, cnv.width, cnv.height);
 
-  var title = 'tetris';
-  var size = this.fitText(cnv, title, 20, 20);
-  var info = 'Press [space] to play';
-  this.fitText(cnv, info, 20, 20 + size);
+  var size = this.fitText(cnv, messages.title, 20, 20);
+  this.fitText(cnv, messages.startScreenPressToPlay, 20, 20 + size);
   this.showOverlay(0.7);
 };
 
-ViewCanvas.prototype.showEndScreen = function () {
+ViewCanvas.prototype.showEndScreen = function (messages) {
   var cnv = this.ui.layers.overlay;
   cnv.ctx.clearRect(0, 0, cnv.width, cnv.height);
 
   var title = 'tetris';
   var size = this.fitText(cnv, title, 20, 20);
-  var info = 'Press [space] to play again';
-  this.fitText(cnv, info, 20, 20 + size);
+  this.fitText(cnv, messages.endScreenPressToPlay, 20, 20 + size);
   this.showOverlay(0.7);
 };
 

@@ -109,6 +109,7 @@ ViewPixi.prototype.getMaxTetrominoSize = function () {
 };
 
 ViewPixi.prototype.loadImages = function (callback) {
+  var game = this.game;
   var files = this.assets.files.blocks;
   var imagesToLoad = Object.keys(files).length;
   for (var tile in files) {
@@ -126,7 +127,11 @@ ViewPixi.prototype.loadImages = function (callback) {
 
       setTimeout((function (view, count, callback) {
         return function () {
-          view.renderLoadingProgress('Loaded images: ' + count + '/' + imagesToLoad);
+          var messages = game.messages;
+          messages.progress = game.messages.loadingProgress
+            .replace('%d1', count)
+            .replace('%d2', imagesToLoad);
+          view.renderLoadingProgress(messages);
           if (count >= imagesToLoad) {
             callback(view);
           }
@@ -145,19 +150,19 @@ ViewPixi.prototype.renderLoadingProgress = function (text) {
   this.renderRichText(container, text);
 };
 
-ViewPixi.prototype.showStartScreen = function () {
+ViewPixi.prototype.showStartScreen = function (messages) {
   var container = this.ui.layers.overlay;
   this.clearContainer(container, true);
 
-  this.renderRichText(container, 'Press [space] to play');
+  this.renderRichText(container, messages.startScreenPressToPlay);
   this.showOverlay(0.7);
 };
 
-ViewPixi.prototype.showEndScreen = function () {
+ViewPixi.prototype.showEndScreen = function (messages) {
   var container = this.ui.layers.overlay;
   this.clearContainer(container, true);
 
-  this.renderRichText(container, 'Press [space] to play again');
+  this.renderRichText(container, messages.endScreenPressToPlay);
   this.showOverlay(0.7);
 };
 

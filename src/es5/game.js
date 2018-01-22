@@ -22,11 +22,24 @@ Game.prototype.pointsForLines = [0, 40, 100, 300, 1200];
 Game.prototype.linesPerLevel = 5;
 Game.prototype.speedPercentIncreasePerLevel = 10;
 Game.prototype.initialSpeed = 1000;
-Game.prototype.removedLinesInfo = {
-  1: 'single',
-  2: 'double',
-  3: 'triple',
-  4: 'tetris'
+Game.prototype.messages = {
+  title: 'Tetris',
+  startScreenPressToPlay: 'Press [space] to play',
+  endScreenPressToPlay: 'Press [space] to play again',
+  loadingProgress: 'Loaded images: %d1/%d2',
+  gameProgress: {
+    level: 'Level: %d',
+    lines: 'Lines: %d',
+    score: 'Score: %d',
+    speed: 'Speed: %d%',
+    points: '+%d points',
+    removedLinesInfo: {
+      1: 'single',
+      2: 'double',
+      3: 'triple',
+      4: 'tetris'
+    }
+  }
 };
 
 Game.prototype.validateOption = function (options) {
@@ -104,7 +117,7 @@ Game.prototype.init = function (options) {
 
 Game.prototype.showStartScreen = function () {
   if (this.view.ready && this.input.ready) {
-    this.view.showStartScreen();
+    this.view.showStartScreen(this.messages);
     this.input.enableStart();
   }
 };
@@ -274,6 +287,14 @@ Game.prototype.addLines = function (lines) {
   this.lines += lines;
 };
 
+Game.prototype.getMessage = function (message, param) {
+  var text = this.messages.gameProgress[message];
+  if (param !== undefined) {
+    text = text.replace('%d', param);
+  }
+  return text;
+};
+
 Game.prototype.updateProgress = function (lines) {
   var score = 0;
   if (lines) {
@@ -283,15 +304,16 @@ Game.prototype.updateProgress = function (lines) {
     this.addScore(score);
     this.setSpeed(this.calculateSpeed(this.level));
   }
-  var progress = [
-    'Level: ' + this.level,
-    'Speed: ' + this.speedPercent + '%',
-    'Score: ' + this.score,
-    'Lines: ' + this.lines
-  ];
+
+  var progress = [];
+  progress.push(this.getMessage('level', this.level));
+  progress.push(this.getMessage('speed', this.speedPercent));
+  progress.push(this.getMessage('score', this.score));
+  progress.push(this.getMessage('lines', this.lines));
+
   if (lines) {
-    progress.push(this.removedLinesInfo[lines]);
-    progress.push('+' + score + ' points');
+    progress.push(this.messages.gameProgress.removedLinesInfo[lines]);
+    progress.push(this.getMessage('points', score));
   }
   this.view.updateProgress(progress);
 };
@@ -335,6 +357,6 @@ Game.prototype.resume = function () {
 
 Game.prototype.end = function () {
   this.halt();
-  this.view.showEndScreen();
+  this.view.showEndScreen(this.messages);
   this.input.enableStart();
 };
