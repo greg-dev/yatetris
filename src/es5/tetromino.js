@@ -23,7 +23,7 @@ Tetromino.prototype.collides = function (blocks, posX, posY) {
   return false;
 };
 
-Tetromino.prototype.blocked = function (blocks, posX, posY) {
+Tetromino.prototype.blocked = function () {
   return this.collides(this.blocks, this.x, this.y);
 };
 
