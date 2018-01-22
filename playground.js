@@ -229,4 +229,49 @@ window.onload = function () {
     input: new InputKeyboard(),
     tetrominos: tetrominosGames56
   });
+
+  var game7 = new Game({
+    rows: 10,
+    cells: 8,
+    view: new ViewPixi({
+      root: document.getElementById('game7')
+    }),
+    input: new InputKeyboard()
+  });
+
+  var game8 = new Game({
+    rows: 12,
+    cells: 8,
+    view: new ViewPixi({
+      root: document.getElementById('game8')
+    }),
+    input: new InputKeyboard()
+  });
+
+  var assetsGame9 = {
+    path: './assets/',
+    files: {
+      blocks: {
+        dropped: 'O_1-2-3-4.png',
+        custom: 'O_1-2-3-4.png'
+      }
+    }
+  };
+
+  var tetrominosGame9 = Object.keys(tetrominos).reduce(function (modified, tetromino) {
+    modified[tetromino].tile = 'custom';
+    return modified;
+  }, JSON.parse(JSON.stringify(tetrominos)));
+
+  var game9 = new Game({
+    rows: 12,
+    cells: 8,
+    view: new ViewPixi({
+      root: document.getElementById('game9'),
+      assets: assetsGame9,
+      blockSize: 32
+    }),
+    input: new InputKeyboard(),
+    tetrominos: tetrominosGame9
+  });
 };
