@@ -16,6 +16,8 @@
     "View": false,
     "ViewCanvas": false,
     "Input": false,
-    "InputKeyboard": false
+    "InputKeyboard": false,
+    "ViewPixi": false,
+    "PIXI": false
   }
 }
