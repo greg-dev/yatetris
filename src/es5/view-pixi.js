@@ -12,13 +12,14 @@ ViewPixi.prototype.setContainerXY = function (container, x, y) {
   container.y = y;
 };
 
-ViewPixi.prototype.createUI = function (rootElement) {
+ViewPixi.prototype.createUI = function () {
   var app = new PIXI.Application({ backgroundColor: 0xe8edf4 });
   app.stage.app = app;
   return app.stage;
 };
 
-ViewPixi.prototype.appendUI = function (ui, rootElement) {
+ViewPixi.prototype.appendUI = function (ui) {
+  var rootElement = this.rootElement;
   while (rootElement.firstChild) {
     rootElement.removeChild(rootElement.firstChild);
   }

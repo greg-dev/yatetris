@@ -42,21 +42,26 @@ Game.prototype.messages = {
   }
 };
 
+Game.prototype.defaultParams = {
+  rows: 20,
+  cells: 10,
+  minRows: 2,
+  minCells: 2,
+  view: ViewCanvas,
+  input: InputKeyboard
+};
+
 Game.prototype.validateOption = function (options) {
   options = typeof options === 'object' ? options : {};
-  var params = {
-    defaultRows: 20,
-    defaultCells: 10,
-    minRows: 2,
-    minCells: 2
-  };
-  var cells = parseInt(options.cells) || params.defaultCells;
+  var params = this.defaultParams;
+
+  var cells = parseInt(options.cells) || params.cells;
   if (cells < params.minCells) {
     throw new Error(
       'The board should be at least ' + params.minCells + ' blocks wide'
     );
   }
-  var rows = parseInt(options.rows) || params.defaultRows;
+  var rows = parseInt(options.rows) || params.rows;
   if (rows < params.minRows) {
     throw new Error(
       'The board should be at least ' + params.minRows + ' blocks tall'
@@ -118,15 +123,41 @@ Game.prototype.clearGrid = function () {
 };
 
 Game.prototype.init = function (options) {
-  this.initialGrid = options.grid || this.createEmptyGrid(options.rows, options.cells);
+  this.rows = options.rows || this.defaultParams.rows;
+  this.cells = options.cells || this.defaultParams.cells;
+  this.initialGrid = options.grid || this.createEmptyGrid(this.rows, this.cells);
   this.grid = JSON.parse(JSON.stringify(this.initialGrid));
   this.speedPercent = parseInt(options.speedPercent) || this.speedPercent;
   this.tetrominos = options.tetrominos || tetrominos;
   this.messages = options.messages || this.messages;
 
   var showStartScreen = this.showStartScreen.bind(this);
-  this.view = options.view;
-  this.input = options.input;
+
+  if (options.view) {
+    this.view = options.view;
+  } else {
+    var rootElement;
+    if (options.id) {
+      rootElement = document.getElementById(options.id);
+    } else if (options.rootElement) {
+      rootElement = options.rootElement;
+    }
+    if (!rootElement) {
+      throw new Error(
+        'Can\'t find root element'
+      );
+    }
+    this.view = new (this.defaultParams.view || View)({
+      root: rootElement
+    });
+  }
+
+  if (options.input) {
+    this.input = options.input;
+  } else {
+    this.input = new (this.defaultParams.input || Input)();
+  }
+
   this.view.init(this, showStartScreen);
   this.input.init(this, showStartScreen);
 };

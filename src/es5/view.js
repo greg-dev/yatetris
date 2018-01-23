@@ -26,8 +26,9 @@ View.prototype.init = function (game, callback) {
   var blockSize = view.blockSize;
 
   // create and append ui
-  this.ui = this.createUI(params.root);
-  this.appendUI(this.ui, params.root);
+  this.rootElement = params.root;
+  this.ui = this.createUI();
+  this.appendUI(this.ui);
   var ui = this.ui;
 
   // create board for falling tetromino and dropped blocks

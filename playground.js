@@ -3,13 +3,16 @@
 /* eslint-disable no-unused-vars */
 
 window.onload = function () {
+  var game0 = new Game({
+    id: 'game0'
+  });
+
   var game1 = new Game({
     rows: 10,
     cells: 8,
     view: new ViewCanvas({
       root: document.getElementById('game1')
-    }),
-    input: new InputKeyboard()
+    })
   });
 
   var game2 = new Game({
@@ -18,7 +21,6 @@ window.onload = function () {
     view: new ViewCanvas({
       root: document.getElementById('game2')
     }),
-    input: new InputKeyboard(),
     grid: [
       [0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0],
@@ -44,7 +46,6 @@ window.onload = function () {
     view: new ViewCanvas({
       root: document.getElementById('game3')
     }),
-    input: new InputKeyboard(),
     tetrominos: {
       small: {
         shape: [
@@ -98,7 +99,6 @@ window.onload = function () {
     view: new ViewCanvas({
       root: document.getElementById('game4')
     }),
-    input: new InputKeyboard(),
     tetrominos: {
       i: {
         tile: 'red',
@@ -212,7 +212,6 @@ window.onload = function () {
       animationSpeed: 100,
       animationBlocks: animationBlocksGames56
     }),
-    input: new InputKeyboard(),
     tetrominos: tetrominosGames56
   });
 
@@ -226,7 +225,6 @@ window.onload = function () {
       animationSpeed: 100,
       animationBlocks: animationBlocksGames56
     }),
-    input: new InputKeyboard(),
     tetrominos: tetrominosGames56
   });
 
@@ -235,8 +233,7 @@ window.onload = function () {
     cells: 8,
     view: new ViewPixi({
       root: document.getElementById('game7')
-    }),
-    input: new InputKeyboard()
+    })
   });
 
   var game8 = new Game({
@@ -244,8 +241,7 @@ window.onload = function () {
     cells: 8,
     view: new ViewPixi({
       root: document.getElementById('game8')
-    }),
-    input: new InputKeyboard()
+    })
   });
 
   var assetsGame9 = {
@@ -271,7 +267,6 @@ window.onload = function () {
       assets: assetsGame9,
       blockSize: 32
     }),
-    input: new InputKeyboard(),
     tetrominos: tetrominosGame9
   });
 
@@ -281,7 +276,6 @@ window.onload = function () {
     view: new ViewCanvas({
       root: document.getElementById('game10')
     }),
-    input: new InputKeyboard(),
     messages: {
       title: 'Tetris',
       startScreenPressToPlay: 'Wciśnij [space] aby zagrać',

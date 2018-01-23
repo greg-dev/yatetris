@@ -17,15 +17,16 @@ ViewCanvas.prototype.setContainerXY = function (container, x, y) {
   container.style.top = y + 'px';
 };
 
-ViewCanvas.prototype.createUI = function (rootElement) {
+ViewCanvas.prototype.createUI = function () {
   var ui = document.createElement('div');
   ui.id = 'ui-' + this.instance;
   ui.className = 'ui';
-  rootElement.appendChild(ui);
+  this.rootElement.appendChild(ui);
   return ui;
 };
 
-ViewCanvas.prototype.appendUI = function (ui, rootElement) {
+ViewCanvas.prototype.appendUI = function (ui) {
+  var rootElement = this.rootElement;
   while (rootElement.firstChild) {
     rootElement.removeChild(rootElement.firstChild);
   }
