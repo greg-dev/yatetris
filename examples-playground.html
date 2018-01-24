@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Tetris playground</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- libs -->
+  <script src="https://pixijs.download/dev/pixi.min.js" type="text/javascript"></script>
+  <!-- game -->
+  <link rel="stylesheet" type="text/css" media="screen" href="src/tetris-canvas.css" />
+  <script src="src/es5/assets.js" type="text/javascript"></script>
+  <script src="src/es5/tetrominos.js" type="text/javascript"></script>
+  <script src="src/es5/tetromino.js" type="text/javascript"></script>
+  <script src="src/es5/input.js" type="text/javascript"></script>
+  <script src="src/es5/input-keyboard.js" type="text/javascript"></script>
+  <script src="src/es5/view.js" type="text/javascript"></script>
+  <script src="src/es5/view-canvas.js" type="text/javascript"></script>
+  <script src="src/es5/view-pixi.js" type="text/javascript"></script>
+  <script src="src/es5/game.js" type="text/javascript"></script>
+  <!-- page -->
+  <link rel="stylesheet" type="text/css" media="screen" href="styles.css" />
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic">
+  <link rel="stylesheet" type="text/css" media="screen" href="examples-playground.css" />
+  <script src="examples-playground.js" type="text/javascript"></script>
+</head>
+<body>
+  <div id="header">
+    <div>
+      <h1>Examples:</h1>
+      <ul>
+        <li><a href="index.html">Home page</a></li>
+        <li class="active">Playground</li>
+      </ul>
+    </div>
+  </div>
+  <div id="content">
+    <h2>Playground</h2>
+
+    <div class="example">
+      <h3>simplest possible</h3>
+      <div id="game0" class="game">#game0</div>
+      <pre>
+        new Game({
+          id: 'game0'
+        });
+      </pre>
+    </div>
+
+    <div class="example">
+      <h3>custom rows and cells numbers</h3>
+      <div id="game1" class="game">#game1</div>
+      <pre>
+        new Game({
+          id: 'game1',
+          rows: 10,
+          cells: 8
+        });
+      </pre>
+    </div>
+
+    <div class="example">
+      <h3>custom initial grid</h3>
+      <div id="game2" class="game">#game2</div>
+      <pre>
+        new Game({
+          id: 'game2',
+          rows: 15,
+          cells: 5,
+          grid: [
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 0],
+            [0, 1, 0, 1, 0],
+            [0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0],
+            [1, 0, 0, 0, 1],
+            [0, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0]
+          ]
+        });
+      </pre>
+    </div>
+
+    <div class="example">
+      <h3>custom tetrominos shapes</h3>
+      <div id="game3" class="game">#game3</div>
+      <pre>
+        new Game({
+          id: 'game3',
+          rows: 20,
+          cells: 6,
+          tetrominos: {
+            small: {
+              shape: [
+                [
+                  [1]
+                ]
+              ],
+              line: 1
+            },
+            big: {
+              shape: [
+                [
+                  [1, 1, 1],
+                  [1, 1, 1],
+                  [1, 1, 1]
+                ]
+              ],
+              line: 0
+            },
+            fck: {
+              shape: [
+                [
+                  [0, 1, 0],
+                  [0, 1, 0],
+                  [1, 1, 1]
+                ],
+                [
+                  [1, 0, 0],
+                  [1, 1, 1],
+                  [1, 0, 0]
+                ],
+                [
+                  [1, 1, 1],
+                  [0, 1, 0],
+                  [0, 1, 0]
+                ],
+                [
+                  [0, 0, 1],
+                  [1, 1, 1],
+                  [0, 0, 1]
+                ]
+              ],
+              line: 0
+            }
+          }
+        });
+      </pre>
+    </div>
+
+    <div class="example">
+      <h3>custom tetrominos shapes</h3>
+      <div id="game4" class="game">#game4</div>
+      <pre>
+        new Game({
+          id: 'game4',
+          rows: 6,
+          cells: 3,
+          tetrominos: {
+            i: {
+              tile: 'red',
+              shape: [
+                [
+                  [0, 0],
+                  [1, 1]
+                ],
+                [
+                  [1, 0],
+                  [1, 0]
+                ],
+                [
+                  [1, 1],
+                  [0, 0]
+                ],
+                [
+                  [0, 1],
+                  [0, 1]
+                ]
+              ],
+              line: 0
+            },
+            j: {
+              tile: 'red',
+              shape: [
+                [
+                  [0, 1],
+                  [1, 1]
+                ],
+                [
+                  [1, 0],
+                  [1, 1]
+                ],
+                [
+                  [1, 1],
+                  [1, 0]
+                ],
+                [
+                  [1, 1],
+                  [0, 1]
+                ]
+              ],
+              line: 0
+            },
+            l: {
+              tile: 'red',
+              shape: [
+                [
+                  [1, 0],
+                  [1, 1]
+                ],
+                [
+                  [1, 1],
+                  [1, 0]
+                ],
+                [
+                  [1, 1],
+                  [0, 1]
+                ],
+                [
+                  [0, 1],
+                  [1, 1]
+                ]
+              ],
+              line: 0
+            }
+          }
+        });
+      </pre>
+    </div>
+    
+    <div class="example">
+      <h3>custom assets, animation and styling</h3>
+      <div id="game5" class="game">#game5</div>
+      <div id="game6" class="game">#game6</div>
+      <pre>
+        var assetsGames56 = {
+          path: 'https://assets-cdn.github.com/images/icons/emoji/',
+          files: {
+            blocks: {
+              dropped: 'hurtrealbad.png',
+              godmode: 'godmode.png',
+              suspect: 'suspect.png',
+              hurtrealbad: 'hurtrealbad.png',
+              rage1: 'rage1.png',
+              rage2: 'rage2.png',
+              rage3: 'rage3.png',
+              rage4: 'rage4.png',
+              goberserk: 'goberserk.png',
+              finnadie: 'finnadie.png'
+            }
+          }
+        };
+      
+        var animationBlocksGames56 = [
+          'rage1',
+          'rage2',
+          'rage3',
+          'rage4',
+          'goberserk',
+          'finnadie',
+          'finnadie'
+        ];
+      
+        var tetrominosGames56 = Object.keys(tetrominos).reduce(function (modified, tetromino) {
+          modified[tetromino].tile = 'suspect';
+          return modified;
+        }, JSON.parse(JSON.stringify(tetrominos)));
+      
+        new Game({
+          rows: 11,
+          cells: 5,
+          view: new ViewCanvas({
+            root: document.getElementById('game5'),
+            assets: assetsGames56,
+            blockSize: 32,
+            animationSpeed: 100,
+            animationBlocks: animationBlocksGames56
+          }),
+          tetrominos: tetrominosGames56
+        });
+
+        new Game({
+          rows: 11,
+          cells: 5,
+          view: new ViewCanvas({
+            root: document.getElementById('game6'),
+            assets: assetsGames56,
+            blockSize: 32,
+            animationSpeed: 100,
+            animationBlocks: animationBlocksGames56
+          }),
+          tetrominos: tetrominosGames56
+        });
+      </pre>
+    </div>
+    
+
+    <div class="example">
+      <h3>custom view layer using the PIXI lib</h3>
+      <div id="game7" class="game">#game7</div>
+      <pre>
+        new Game({
+          rows: 10,
+          cells: 8,
+          view: new ViewPixi({
+            root: document.getElementById('game7')
+          })
+        });
+      </pre>
+    </div>
+    
+    <div class="example">
+      <h3>custom assets with PIXI view layer</h3>
+      <div id="game8" class="game">#game8</div>
+      <pre>
+        var assetsGame8 = {
+          path: './assets/',
+          files: {
+            blocks: {
+              dropped: 'O_1-2-3-4.png',
+              custom: 'O_1-2-3-4.png'
+            }
+          }
+        };
+      
+        var tetrominosGame8 = Object.keys(tetrominos).reduce(function (modified, tetromino) {
+          modified[tetromino].tile = 'custom';
+          return modified;
+        }, JSON.parse(JSON.stringify(tetrominos)));
+      
+        new Game({
+          rows: 12,
+          cells: 8,
+          view: new ViewPixi({
+            root: document.getElementById('game8'),
+            assets: assetsGame8,
+            blockSize: 32
+          }),
+          tetrominos: tetrominosGame8
+        });
+      </pre>
+    </div>
+
+
+    <div class="example">
+      <h3>custom messages</h3>
+      <div id="game9" class="game">#game9</div>
+      <pre>
+        new Game({
+          id: 'game9',
+          rows: 10,
+          cells: 8,
+          messages: {
+            title: 'Tetris',
+            startScreenPressToPlay: 'Wciśnij [space] aby zagrać',
+            endScreenPressToPlay: 'Wciśnij [space] i spróbuj ponownie',
+            loadingProgress: 'Wczytane obrazki: %d1/%d2',
+            gameProgress: {
+              level: 'Poziom: %d',
+              lines: 'Linie: %d',
+              score: 'Punkty: %d',
+              speed: 'Prędkość: %d%',
+              points: '+%d punktów',
+              removedLinesInfo: {
+                1: '1 linia',
+                2: '2 linie',
+                3: '3 linie',
+                4: '4 linie'
+              }
+            }
+          }
+        });
+      </pre>
+    </div>
+  </div>
+</body>
+</html>

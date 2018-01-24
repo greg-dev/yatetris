@@ -3,24 +3,23 @@
 /* eslint-disable no-unused-vars */
 
 window.onload = function () {
-  var game0 = new Game({
+  // simplest possible
+  new Game({
     id: 'game0'
   });
 
-  var game1 = new Game({
+  // custom rows and cells numbers
+  new Game({
+    id: 'game1',
     rows: 10,
-    cells: 8,
-    view: new ViewCanvas({
-      root: document.getElementById('game1')
-    })
+    cells: 8
   });
 
-  var game2 = new Game({
+  // custom initial grid
+  new Game({
+    id: 'game2',
     rows: 15,
     cells: 5,
-    view: new ViewCanvas({
-      root: document.getElementById('game2')
-    }),
     grid: [
       [0, 0, 0, 0, 0],
       [0, 0, 0, 0, 0],
@@ -40,12 +39,11 @@ window.onload = function () {
     ]
   });
 
-  var game3 = new Game({
+  // custom tetrominos shapes
+  new Game({
+    id: 'game3',
     rows: 20,
     cells: 6,
-    view: new ViewCanvas({
-      root: document.getElementById('game3')
-    }),
     tetrominos: {
       small: {
         shape: [
@@ -93,12 +91,11 @@ window.onload = function () {
     }
   });
 
-  var game4 = new Game({
+  // custom tetrominos shapes
+  new Game({
+    id: 'game4',
     rows: 6,
     cells: 3,
-    view: new ViewCanvas({
-      root: document.getElementById('game4')
-    }),
     tetrominos: {
       i: {
         tile: 'red',
@@ -169,6 +166,7 @@ window.onload = function () {
     }
   });
 
+  // custom assets and animation
   var assetsGames56 = {
     path: 'https://assets-cdn.github.com/images/icons/emoji/',
     files: {
@@ -202,7 +200,7 @@ window.onload = function () {
     return modified;
   }, JSON.parse(JSON.stringify(tetrominos)));
 
-  var game5 = new Game({
+  new Game({
     rows: 11,
     cells: 5,
     view: new ViewCanvas({
@@ -215,7 +213,8 @@ window.onload = function () {
     tetrominos: tetrominosGames56
   });
 
-  var game6 = new Game({
+  // custom assets, animation and styling
+  new Game({
     rows: 11,
     cells: 5,
     view: new ViewCanvas({
@@ -228,7 +227,8 @@ window.onload = function () {
     tetrominos: tetrominosGames56
   });
 
-  var game7 = new Game({
+  // custom view layer using the PIXI lib
+  new Game({
     rows: 10,
     cells: 8,
     view: new ViewPixi({
@@ -236,15 +236,8 @@ window.onload = function () {
     })
   });
 
-  var game8 = new Game({
-    rows: 12,
-    cells: 8,
-    view: new ViewPixi({
-      root: document.getElementById('game8')
-    })
-  });
-
-  var assetsGame9 = {
+  // custom assets
+  var assetsGame8 = {
     path: './assets/',
     files: {
       blocks: {
@@ -254,28 +247,27 @@ window.onload = function () {
     }
   };
 
-  var tetrominosGame9 = Object.keys(tetrominos).reduce(function (modified, tetromino) {
+  var tetrominosGame8 = Object.keys(tetrominos).reduce(function (modified, tetromino) {
     modified[tetromino].tile = 'custom';
     return modified;
   }, JSON.parse(JSON.stringify(tetrominos)));
 
-  var game9 = new Game({
+  new Game({
     rows: 12,
     cells: 8,
     view: new ViewPixi({
-      root: document.getElementById('game9'),
-      assets: assetsGame9,
+      root: document.getElementById('game8'),
+      assets: assetsGame8,
       blockSize: 32
     }),
-    tetrominos: tetrominosGame9
+    tetrominos: tetrominosGame8
   });
 
-  var game10 = new Game({
+  // custom messages
+  new Game({
+    id: 'game9',
     rows: 10,
     cells: 8,
-    view: new ViewCanvas({
-      root: document.getElementById('game10')
-    }),
     messages: {
       title: 'Tetris',
       startScreenPressToPlay: 'Wciśnij [space] aby zagrać',
