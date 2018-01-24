@@ -160,14 +160,16 @@ View.prototype.renderTetromino = function () {
   for (var y = 0; y < blocks.length; y++) {
     for (var x = 0; x < blocks[0].length; x++) {
       if (blocks[y][x]) {
-        this.drawImage(
-          container,
-          image,
-          (tetromino.x + x) * blockSize,
-          (tetromino.y + y - this.hiddenLines) * blockSize,
-          blockSize,
-          blockSize
-        );
+        if (tetromino.y + y >= this.hiddenLines) {
+          this.drawImage(
+            container,
+            image,
+            (tetromino.x + x) * blockSize,
+            (tetromino.y + y - this.hiddenLines) * blockSize,
+            blockSize,
+            blockSize
+          );
+        }
       }
     }
   }
