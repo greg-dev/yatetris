@@ -20,5 +20,8 @@
     "InputKeyboard": false,
     "ViewPixi": false,
     "PIXI": false
+  },
+  "rules": {
+    "no-new": "off"
   }
 }
