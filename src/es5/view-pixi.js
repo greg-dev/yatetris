@@ -60,18 +60,18 @@ ViewPixi.prototype.insertIntoContainer = function (container, item) {
   container.addChild(item);
 };
 
-ViewPixi.prototype.renderLoadingProgress = function (text) {
+ViewPixi.prototype.renderLoadingProgress = function (messages) {
   var container = this.ui.layers.overlay;
   this.clearContainer(container, true);
 
-  this.renderRichText(container, text);
+  this.renderRichText(container, messages.progress, 10, container.height * 0.3);
 };
 
 ViewPixi.prototype.showStartScreen = function (messages) {
   var container = this.ui.layers.overlay;
   this.clearContainer(container, true);
 
-  this.renderRichText(container, messages.startScreenPressToPlay);
+  this.renderRichText(container, messages.startScreenPressToPlay, 10, container.height * 0.3);
   this.showOverlay(0.7);
 };
 
@@ -79,7 +79,7 @@ ViewPixi.prototype.showEndScreen = function (messages) {
   var container = this.ui.layers.overlay;
   this.clearContainer(container, true);
 
-  this.renderRichText(container, messages.endScreenPressToPlay);
+  this.renderRichText(container, messages.endScreenPressToPlay, 10, container.height * 0.3);
   this.showOverlay(0.7);
 };
 
@@ -89,31 +89,31 @@ ViewPixi.prototype.renderBasicText = function (container, text, x, y, color) {
     fontSize: Math.floor(this.blockSize / 2)
   });
   var basicText = new PIXI.Text(text, style);
-  basicText.x = x;
-  basicText.y = y;
+  basicText.x = x || 0;
+  basicText.y = y || 0;
   container.addChild(basicText);
 };
 
-ViewPixi.prototype.renderRichText = function (container, text) {
+ViewPixi.prototype.renderRichText = function (container, text, x, y) {
   var style = new PIXI.TextStyle({
     fontFamily: 'Arial',
     fontSize: this.blockSize,
     fontWeight: 'bold',
-    fill: ['#ffffff', '#00ff99'],
+    fill: ['#ffffff', '#f48fb1'],
     stroke: '#4a1850',
-    strokeThickness: 5,
+    strokeThickness: 2,
     dropShadow: true,
     dropShadowColor: '#000000',
     dropShadowBlur: 4,
     dropShadowAngle: Math.PI / 6,
     dropShadowDistance: 6,
     wordWrap: true,
-    wordWrapWidth: this.ui.board.width
+    wordWrapWidth: this.ui.board.width - 10
   });
 
   var richText = new PIXI.Text(text, style);
-  richText.x = 0;
-  richText.y = 0;
+  richText.x = x || 0;
+  richText.y = y || 0;
 
   container.addChild(richText);
 };

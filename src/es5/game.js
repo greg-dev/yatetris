@@ -24,8 +24,8 @@ Game.prototype.speedPercentIncreasePerLevel = 10;
 Game.prototype.initialSpeed = 1000;
 Game.prototype.messages = {
   title: 'Tetris',
-  startScreenPressToPlay: 'Press [space] to play',
-  endScreenPressToPlay: 'Press [space] to play again',
+  startScreenPressToPlay: 'Press [space]\nto play',
+  endScreenPressToPlay: 'Press [space]\nto play again',
   loadingProgress: 'Loaded images: %d1/%d2',
   gameProgress: {
     level: 'Level: %d',

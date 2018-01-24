@@ -78,8 +78,9 @@ ViewCanvas.prototype.renderLoadingProgress = function (messages) {
   var container = this.ui.layers.overlay;
   this.clearContainer(container, true);
 
-  var size = this.fitText(container, messages.title, 20, 20);
-  this.fitText(container, messages.progress, 20, 20 + size);
+  var y = container.height * 0.3;
+  var size = this.fitText(container, messages.title, 20, y);
+  this.fitText(container, messages.progress, 20, y + size);
   this.showOverlay(0.7);
 };
 
@@ -87,8 +88,9 @@ ViewCanvas.prototype.showStartScreen = function (messages) {
   var container = this.ui.layers.overlay;
   this.clearContainer(container);
 
-  var size = this.fitText(container, messages.title, 20, 20);
-  this.fitText(container, messages.startScreenPressToPlay, 20, 20 + size);
+  var y = container.height * 0.3;
+  var size = this.fitText(container, messages.title, 20, y);
+  this.fitText(container, messages.startScreenPressToPlay, 20, y + size);
   this.showOverlay(0.7);
 };
 
@@ -96,9 +98,9 @@ ViewCanvas.prototype.showEndScreen = function (messages) {
   var container = this.ui.layers.overlay;
   this.clearContainer(container);
 
-  var title = messages.title;
-  var size = this.fitText(container, title, 20, 20);
-  this.fitText(container, messages.endScreenPressToPlay, 20, 20 + size);
+  var y = container.height * 0.3;
+  var size = this.fitText(container, messages.title, 20, y);
+  this.fitText(container, messages.endScreenPressToPlay, 20, y + size);
   this.showOverlay(0.7);
 };
 
