@@ -50,16 +50,16 @@ InputKeyboard.prototype.disableMove = function () {
 InputKeyboard.prototype.pressMoveRotate = function (event) {
   event.preventDefault();
   switch (event.keyCode) {
-    case 87: // w
+    case 38: // UP
       this.rotate();
       break;
-    case 83: // s
+    case 40: // DOWN
       this.moveDown();
       break;
-    case 65: // a
+    case 37: // LEFT
       this.moveLeft();
       break;
-    case 68: // d
+    case 39: // RIGHT
       this.moveRight();
       break;
   }
