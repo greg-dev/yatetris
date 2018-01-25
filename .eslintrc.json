@@ -18,6 +18,8 @@
     "ViewCanvas": false,
     "Input": false,
     "InputKeyboard": false,
+    "InputTouch": false,
+    "Hammer": false,
     "ViewPixi": false,
     "PIXI": false
   },
