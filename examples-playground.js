@@ -288,4 +288,17 @@ window.onload = function () {
       }
     }
   });
+
+  // handle tap/swipe events (for mobile devices)
+  var customMessages10 = JSON.parse(JSON.stringify(Game.prototype.messages));
+  customMessages10.startScreenPressToPlay = 'Tap to play';
+  customMessages10.endScreenPressToPlay = 'Tap to play again';
+
+  new Game({
+    id: 'game10',
+    rows: 20,
+    cells: 10,
+    input: new InputTouch(),
+    messages: customMessages10
+  });
 };
