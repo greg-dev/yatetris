@@ -80,10 +80,15 @@ View.prototype.init = function (game, callback) {
 };
 
 View.prototype.getMaxTetrominoSize = function () {
-  return Object.values(this.game.tetrominos).reduce(function (max, tetromino) {
-    var curr = tetromino.shape[0][0].length;
-    return curr > max ? curr : max;
-  }, 0);
+  var tetrominos = this.game.tetrominos;
+  return Object.keys(tetrominos)
+    .map(function (key) {
+      return tetrominos[key];
+    })
+    .reduce(function (max, tetromino) {
+      var curr = tetromino.shape[0][0].length;
+      return curr > max ? curr : max;
+    }, 0);
 };
 
 View.prototype.loadImages = function (callback) {
